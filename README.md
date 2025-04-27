@@ -1,4 +1,6 @@
-# MotoZone - A Comprehensive Online Marketplace for Vehicles, Bikes, and Accessories
+# MotoZone 
+## (A Comprehensive Online Marketplace for Vehicles, Bikes, and Accessories)
+### Software Quality Engineering Semester Project
 
 This Project is made in React + Vite
 
