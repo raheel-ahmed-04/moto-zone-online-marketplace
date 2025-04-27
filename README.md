@@ -1,12 +1,32 @@
-# React + Vite
+# MotoZone - A Comprehensive Online Marketplace for Vehicles, Bikes, and Accessories
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This Project is made in React + Vite
 
-Currently, two official plugins are available:
+Developed by _Raheel Ahmed_, _Ahad Ur Rehman_, _Bilal Arshad_ and _Ahmad Rana_ of Comsats University Islamabad, Wah as semester project in 6th semester.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
 
-## Expanding the ESLint configuration
+Go to project directory (moto-zone-showroom) Run these commands in terminal in order to use the project.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm create vite@latest
+# (if you have cloned this repo then dont use this command)
+```
+
+```bash
+npm install
+```
+
+## Usage
+
+```bash
+npm run dev
+```
+
+## Contributing
+
+GitHub and LinkedIn Profiles of Collaborators:
+
+- Raheel Ahmed [GitHub](https://github.com/raheel-ahmed-04), [LinkedIn](www.linkedin.com/in/raheelahmad72).
+- Ahad Ur Rehman [GitHub](https://github.com/Ahad-Rehman), [LinkedIn](https://www.linkedin.com/in/ahad-ur-rehman-a4bb77278/).
+- Bilal Arshad [GitHub](https://github.com/raheel-ahmed-04), [LinkedIn](www.linkedin.com/in/raheelahmad72).
