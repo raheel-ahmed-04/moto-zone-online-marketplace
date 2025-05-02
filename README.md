@@ -32,3 +32,4 @@ GitHub and LinkedIn Profiles of Collaborators:
 - Raheel Ahmed [GitHub](https://github.com/raheel-ahmed-04), [LinkedIn](www.linkedin.com/in/raheelahmad72).
 - Ahad Ur Rehman [GitHub](https://github.com/Ahad-Rehman), [LinkedIn](https://www.linkedin.com/in/ahad-ur-rehman-a4bb77278/).
 - Bilal Arshad [GitHub](https://github.com/raheel-ahmed-04), [LinkedIn](www.linkedin.com/in/raheelahmad72).
+-Ahmad Rana [GitHub](https://github.com/ahmad1751), [LinkedIn](www.linkedin.com/in/ahmad-rana-311b63282).
