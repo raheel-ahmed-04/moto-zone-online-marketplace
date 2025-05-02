@@ -4,7 +4,7 @@
 
 This Project is made in React + Vite
 
-Developed by _Raheel Ahmed_, _Ahad Ur Rehman_, _Bilal Arshad_ and _Ahmad Rana_ of Comsats University Islamabad, Wah as semester project in 6th semester.
+Developed by _Raheel Ahmed_, _Ahad Ur Rehman_, _Bilal Arshad_ and _Ahmed Rana_ of Comsats University Islamabad, Wah as semester project in 6th semester.
 
 ## Installation
 
