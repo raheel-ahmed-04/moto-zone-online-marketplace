@@ -1,15 +1,17 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import bikeData from '../assets/data/bikeData';
-import { Container, Row, Col } from 'reactstrap';
-import Helmet from '../components/Helmet/Helmet';
-import BookingForm from '../components/UI/BookingForm';
-import PaymentMethod from '../components/UI/PaymentMethod';
-import '../styles/BikeDetails.css'; // Ensure you have the CSS file
+import React from "react";
+import { useParams } from "react-router-dom";
+import bikeData from "../assets/data/bikeData";
+import { Container, Row, Col } from "reactstrap";
+import Helmet from "../components/Helmet/Helmet";
+import BookingForm from "../components/UI/BookingForm";
+import PaymentMethod from "../components/UI/PaymentMethod";
+import "../styles/BikeDetails.css"; // Ensure you have the CSS file
 
 const BikeDetails = () => {
   const { slug } = useParams();
-  const bike = bikeData.find((item) => item.bikeName.toLowerCase() === slug.toLowerCase());
+  const bike = bikeData.find(
+    (item) => item.bikeName.toLowerCase() === slug.toLowerCase()
+  );
 
   if (!bike) {
     return <h2>Bike not found!</h2>;

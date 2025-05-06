@@ -144,3 +144,5 @@ const ManageCars = () => {
     </Container>
   );
 };
+
+export default ManageCars;
