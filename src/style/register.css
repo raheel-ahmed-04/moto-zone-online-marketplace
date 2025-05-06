@@ -1,0 +1,32 @@
+/* src/styles/register.css */
+.register-page {
+    padding: 50px 0;
+  }
+  
+  .register-page h2 {
+    margin-bottom: 30px;
+  }
+  
+  .register-page .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .register-page .btn {
+    display: block;
+    width: 100%;
+  }
+  
+  .register-page .register-link {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .register-page .register-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .register-page .register-link a:hover {
+    text-decoration: underline;
+  }
+  

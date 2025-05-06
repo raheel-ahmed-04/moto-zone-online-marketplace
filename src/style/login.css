@@ -1,0 +1,22 @@
+/* src/styles/login.css */
+.login-page {
+  padding: 50px 0;
+}
+
+.login-page h2 {
+  margin-bottom: 30px;
+}
+
+.login-page .register-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-page .register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-page .register-link a:hover {
+  text-decoration: underline;
+}

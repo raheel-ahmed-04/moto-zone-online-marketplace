@@ -1,0 +1,311 @@
+/* ============ header top ============ */
+.header__top {
+  padding: 10px 0;
+  background: #343a40; /* Dark Gray */
+  color: #fff; /* White text */
+}
+
+.header__top__left {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.header__top__left span {
+  font-size: 0.9rem;
+}
+
+.header__top__help {
+  display: flex;
+  align-items: center;
+  column-gap: 0.4rem;
+}
+
+.header__top__help i {
+  background: #ffc107; /* Amber background */
+  color: #343a40; /* Dark gray icon */
+  padding: 2px 4px;
+  border-radius: 50%;
+  font-size: 0.7rem;
+}
+
+.header__top__right a {
+  text-decoration: none;
+  color: #fff; /* White text */
+  font-size: 0.9rem;
+}
+
+.header__top__right a:hover {
+  color: #ffc107; /* Amber on hover */
+}
+
+/* ============ header middle =========== */
+.header__middle {
+  padding: 20px 0;
+  background: #495057; /* Slightly lighter gray */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 a span {
+  font-size: 1.5rem;
+}
+
+.logo h1 a i {
+  font-size: 2.2rem;
+}
+
+.logo h1 a {
+  text-decoration: none;
+  color: #fff; /* White text */
+  font-weight: 700;
+}
+
+.logo h1 {
+  line-height: 1.5rem;
+}
+
+.header__location {
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+.header__location span i {
+  font-size: 2.2rem;
+  color: #ffc107; /* Amber icon */
+}
+
+.header__location-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__location-content h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff; /* White text */
+}
+
+.header__location-content h6 {
+  font-weight: 600;
+  color: #ddd; /* Light gray for address text */
+}
+
+.header__btn {
+  background: #ffc107; /* Amber background */
+  padding: 15px 30px; /* Increase padding */
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  margin-left: auto; /* Ensure it is pushed to the right */
+  font-size: 1rem; /* Increase font size */
+}
+
+.header__btn a {
+  display: flex;
+  align-items: center;
+  column-gap: 0.4rem;
+  text-decoration: none;
+  color: #343a40; /* Dark gray text */
+  justify-content: end;
+  font-size: 1rem; /* Increase font size */
+}
+
+.header__btn:hover {
+  background-color: #e0a800; /* Darker Amber on hover */
+}
+
+.header__btn a:hover {
+  color: #212529; /* Darker gray on hover */
+}
+
+/* ================ main navbar styles =========== */
+.main__navbar {
+  padding: 15px 0;
+  background: #212529; /* Darker Gray */
+}
+
+.mobile__menu i {
+  color: #fff; /* White icon */
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.mobile__menu {
+  display: none;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  column-gap: 2.7rem;
+}
+
+.nav__item {
+  color: #fff; /* White text */
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.nav__item:hover {
+  color: #ffc107; /* Amber on hover */
+}
+
+.search__box {
+  border: 1px solid #ccc;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
+  background: #fff; /* White background */
+}
+
+.search__box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #333; /* Dark text */
+  cursor: pointer;
+}
+
+.search__box input::placeholder {
+  font-size: 0.8rem;
+  color: #7f8c8d; /* Light gray */
+}
+
+.search__box span i {
+  color: #7f8c8d; /* Light gray icon */
+  cursor: pointer;
+}
+
+.nav__active {
+  color: #ffc107; /* Amber */
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 768px) {
+  .header__top,
+  .header__middle,
+  .nav__right {
+    display: none;
+  }
+
+  .mobile__menu {
+    display: block;
+  }
+
+  .navigation {
+    background: rgba(52, 58, 64, 0.9); /* Dark gray with transparency */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+  }
+
+  .menu {
+    width: 250px;
+    height: 100%;
+    background: #212529; /* Dark Gray */
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+  }
+
+  .menu__active {
+    display: block;
+  }
+
+  .nav__item {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  .header__btn {
+    display: block;
+    margin-top: 1rem;
+    font-size: 1.2rem; /* Increase font size for mobile */
+    padding: 10px 20px; /* Increase padding for mobile */
+  }
+}
+
+/* ===================== Register Form Styles ===================== */
+.register-form {
+  background: #f8f9fa; /* Light background for form */
+  padding: 2rem 3rem;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-form h2 {
+  text-align: center;
+  color: #212529; /* Dark text */
+  margin-bottom: 2rem;
+}
+
+.register-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.register-form label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343a40; /* Darker text */
+}
+
+.register-form input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #333;
+  background: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.register-form input:focus {
+  border-color: #ffc107; /* Amber focus */
+  outline: none;
+}
+
+.register-form button {
+  background-color: #ffc107; /* Amber background */
+  padding: 12px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  color: #343a40; /* Dark text */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-form button:hover {
+  background-color: #e0a800; /* Darker amber on hover */
+}
+
+@media only screen and (max-width: 768px) {
+  .register-form {
+    padding: 1.5rem 2rem; /* Reduced padding for smaller screens */
+  }
+
+  .register-form h2 {
+    font-size: 1.5rem; /* Adjust header size for mobile */
+  }
+
+  .register-form button {
+    font-size: 1rem; /* Adjust button font size for mobile */
+  }
+}
+

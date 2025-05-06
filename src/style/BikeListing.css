@@ -1,0 +1,77 @@
+/* BikeListing.css */
+
+.bike-section-image {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.bike-section-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.bike__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.bike__item:hover {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.bike__item-content {
+  text-align: center;
+  width: 100%;
+}
+
+.bike__image {
+  border-radius: 8px;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.btn {
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.buy__btn {
+  background-color: #ff0000;
+  color: white;
+}
+
+.buy__btn:hover {
+  background-color: #cc0000;
+}
+
+.details__btn {
+  background-color: #003b73;
+  color: white;
+}
+
+.details__btn:hover {
+  background-color: #002a50;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

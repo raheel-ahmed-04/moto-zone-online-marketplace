@@ -1,0 +1,64 @@
+/* BikeDetail.css */
+
+.bike-card {
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Adjust width as needed */
+  }
+  
+  .bike-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #eaeaea;
+    margin-bottom: 15px;
+  }
+  
+  .bike-card h2 {
+    font-size: 24px;
+    color: #012169;
+    margin-bottom: 10px;
+  }
+  
+  .bike-card p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .bike-card .bike-details {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+  }
+  
+  .bike-card .bike-details span {
+    font-size: 16px;
+    color: #777;
+  }
+  
+  .bike-card .bike-buttons {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .bike-card .bike-buttons a {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #fff;
+  }
+  
+  .bike-card .bike-buttons .buy-now {
+    background-color: #012169;
+  }
+  
+  .bike-card .bike-buttons .details {
+    background-color: #f7a400;
+  }
+  
+  
