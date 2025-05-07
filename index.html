@@ -1,13 +1,24 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Moto-Z0ne CarShowroom</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moto-Z0ne CarShowroom</title>
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- Add this before your main script loads -->
+  <script>
+    window.env = {
+      REACT_APP_SUPABASE_URL: "https://your-project-url.supabase.co",
+      REACT_APP_SUPABASE_ANON_KEY: "your-anon-key"
+    };
+  </script>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>

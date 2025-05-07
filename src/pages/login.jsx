@@ -1,80 +1,96 @@
-import React, { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-} from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import "../styles/login.css"; // Make sure to create this CSS file for styling
+"use client"
+
+import { useState, useEffect } from "react"
+import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from "reactstrap"
+import { Link, useNavigate } from "react-router-dom"
+import "../styles/login.css"
+import { supabase } from "../../lib/supabase"
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    isAdmin: false, // NEW admin field
-  });
-  const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
+    isAdmin: false,
+  })
+  const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [connectionStatus, setConnectionStatus] = useState("Checking connection...")
+
+  // Test connection on component mount
+  useEffect(() => {
+    async function testConnection() {
+      try {
+        // Use a simple query instead of count() to test connection
+        // Just fetch a single row with limit 1 instead of using count()
+        const { error } = await supabase.from("login").select("id").limit(1)
+
+        if (error) {
+          console.error("Connection test error:", error)
+          setConnectionStatus(`Connection error: ${error.message}`)
+          return
+        }
+
+        setConnectionStatus("Connected to Supabase successfully")
+      } catch (err) {
+        console.error("Unexpected error:", err)
+        setConnectionStatus(`Connection error: ${err.message}`)
+      }
+    }
+
+    testConnection()
+  }, [])
 
   const handleChange = (e) => {
-    const { id, value, type, checked } = e.target;
+    const { id, value, type, checked } = e.target
     if (type === "checkbox") {
-      // If it's a checkbox, handle boolean
-      setFormData({ ...formData, [id]: checked });
+      setFormData({ ...formData, [id]: checked })
     } else {
-      setFormData({ ...formData, [id]: value });
+      setFormData({ ...formData, [id]: value })
     }
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    setErrorMessage("")
+    setLoading(true)
+
     try {
-      // Include isAdmin in the request body
-      const response = await axios.post(
-        "http://localhost:2000/login",
-        formData
-      );
+      // Now try the actual login
+      const { data: users, error } = await supabase
+        .from("login")
+        .select("*")
+        .eq("email", formData.email)
+        .eq("password", formData.password)
 
-      // Example: { message: "User login successful", userName: "John Doe", isAdmin: true/false }
-      console.log("Login Response:", response.data);
-
-      // Store the name in localStorage
-      if (response.data?.userName) {
-        localStorage.setItem("userName", response.data.userName);
+      if (error) {
+        console.error("Query error:", error)
+        throw new Error(`Query error: ${error.message}`)
       }
 
-      // If the backend returns isAdmin = true, store that too (optional)
-      if (response.data?.isAdmin) {
-        localStorage.setItem("isAdmin", "true");
+      if (!users || users.length === 0) {
+        setErrorMessage("Invalid email or password")
+        setLoading(false)
+        return
+      }
+
+      const user = users[0]
+      localStorage.setItem("userName", user.email)
+
+      if (user.is_admin) {
+        localStorage.setItem("isAdmin", "true")
       } else {
-        localStorage.removeItem("isAdmin"); // or set to "false"
+        localStorage.removeItem("isAdmin")
       }
 
-      // Redirect to homepage or admin dashboard
-      if (response.data?.isAdmin) {
-        // If user is an admin, maybe navigate them to an admin panel
-        navigate("/home");
-      } else {
-        // Otherwise, regular user goes to /home
-        navigate("/home");
-      }
-    } catch (error) {
-      // If there's a server response with status 400, display the message
-      if (error.response && error.response.status === 400) {
-        setErrorMessage(error.response.data.message);
-      } else {
-        // Otherwise show a generic error
-        setErrorMessage("Something went wrong. Please try again.");
-      }
-      console.error("There was an error!!", error);
+      navigate("/home")
+    } catch (err) {
+      console.error("Login error:", err.message || err)
+      setErrorMessage(`Login failed: ${err.message || "Please check your Supabase configuration"}`)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <div className="login-page">
@@ -83,7 +99,19 @@ const Login = () => {
           <Col lg="6" md="8" sm="12">
             <h2>Login</h2>
 
-            {/* Conditionally render the error message */}
+            {/* Connection status indicator */}
+            <div
+              style={{
+                padding: "10px",
+                marginBottom: "15px",
+                borderRadius: "4px",
+                backgroundColor: connectionStatus.includes("error") ? "#f8d7da" : "#d4edda",
+                color: connectionStatus.includes("error") ? "#721c24" : "#155724",
+              }}
+            >
+              {connectionStatus}
+            </div>
+
             {errorMessage && (
               <div
                 style={{
@@ -91,6 +119,7 @@ const Login = () => {
                   padding: "10px",
                   marginBottom: "10px",
                   color: "#721c24",
+                  borderRadius: "4px",
                 }}
               >
                 {errorMessage}
@@ -100,39 +129,23 @@ const Login = () => {
             <Form onSubmit={handleSubmit}>
               <FormGroup>
                 <Label for="email">Email</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                />
+                <Input type="email" id="email" required value={formData.email} onChange={handleChange} />
               </FormGroup>
               <FormGroup>
                 <Label for="password">Password</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                />
+                <Input type="password" id="password" required value={formData.password} onChange={handleChange} />
               </FormGroup>
 
-              {/* NEW Admin Checkbox */}
               <FormGroup check className="mb-3">
-                <Input
-                  type="checkbox"
-                  id="isAdmin"
-                  checked={formData.isAdmin}
-                  onChange={handleChange}
-                />
+                <Input type="checkbox" id="isAdmin" checked={formData.isAdmin} onChange={handleChange} />
                 <Label check htmlFor="isAdmin">
                   Are you an admin?
                 </Label>
               </FormGroup>
 
-              <Button type="submit">Login</Button>
+              <Button type="submit" disabled={loading || connectionStatus.includes("error")}>
+                {loading ? "Logging in..." : "Login"}
+              </Button>
             </Form>
             <div className="register-link mt-2">
               <span>Don't have an account? </span>
@@ -142,7 +155,7 @@ const Login = () => {
         </Row>
       </Container>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
