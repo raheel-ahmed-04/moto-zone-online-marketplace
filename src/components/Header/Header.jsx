@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button } from "reactstrap";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
 
 const navLinks = [
@@ -31,6 +31,19 @@ const navLinks = [
 ];
 
 const Header = () => {
+  const navigate = useNavigate();
+  const userName = localStorage.getItem("userName");
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  const role = isAdmin ? "admin" : localStorage.getItem("role") || "";
+  const isLoggedIn = !!userName;
+
+  const handleLogout = () => {
+    localStorage.removeItem("userName");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isAdmin");
+    navigate("/login");
+  };
+
   return (
     <header className="header">
       <div className="header__top">
@@ -46,12 +59,29 @@ const Header = () => {
             </Col>
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                <Link to="/login" className="d-flex align-items-center gap-1">
-                  <i className="ri-login-circle-line"></i> Login
-                </Link>
-                <Link to="/register" className="d-flex align-items-center gap-1">
-                  <i className="ri-user-line"></i> Register
-                </Link>
+                {isLoggedIn ? (
+                  <>
+                    <span className="d-flex align-items-center gap-1">
+                      <i className="ri-user-line"></i> {userName} ({role})
+                    </span>
+                    <Link
+                      to="#"
+                      className="d-flex align-items-center gap-1"
+                      onClick={handleLogout}
+                    >
+                      <i className="ri-logout-circle-line"></i> Logout
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/login" className="d-flex align-items-center gap-1">
+                      <i className="ri-login-circle-line"></i> Login
+                    </Link>
+                    <Link to="/register" className="d-flex align-items-center gap-1">
+                      <i className="ri-user-line"></i> Register
+                    </Link>
+                  </>
+                )}
               </div>
             </Col>
           </Row>
