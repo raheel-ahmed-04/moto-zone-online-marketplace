@@ -50,15 +50,15 @@ const Header = () => {
         <Container>
           <Row>
             <Col lg="6" md="6" sm="6">
-              <div className="header__top__left">
+              <div className="header_top_left">
                 <span>Need Help?</span>
-                <span className="header__top__help">
+                <span className="header_top_help">
                   <i className="ri-phone-fill"></i> +92-3105789904
                 </span>
               </div>
             </Col>
             <Col lg="6" md="6" sm="6">
-              <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
+              <div className="header_top_right d-flex align-items-center justify-content-end gap-3">
                 {isLoggedIn ? (
                   <>
                     <span className="d-flex align-items-center gap-1">
@@ -122,6 +122,9 @@ const Header = () => {
                   <i className="ri-phone-line"></i> Request a call
                 </Link>
               </button>
+              <Link to="/chat" className="btn btn-warning ms-2">
+                Chat Page
+              </Link>
             </Col>
           </Row>
         </Container>

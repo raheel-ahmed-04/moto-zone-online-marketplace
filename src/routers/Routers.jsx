@@ -15,6 +15,8 @@ import Login from "../pages/login";
 import Register from "../pages/Register-page"; // Corrected import
 import ManageBikes from "../pages/ManageBikes";
 import BookingHistory from "../pages/BookingHistory";
+import ChatPage from "../pages/ChatPage"; 
+
 
 const Routers = () => {
   return (
@@ -38,6 +40,9 @@ const Routers = () => {
       <Route path="/manage-bikes" element={<ManageBikes />} />{" "}
       {/* Corrected route */}
       <Route path="/bookings-history" element={<BookingHistory />} />{" "}
+      {/* Admin route for managing cars */}
+      <Route path="/admin" element={<ManageCars />} />{" "}
+      <Route path="/chat" element={<ChatPage />} />{" "}
       {/* Corrected route */}
       <Route path="*" element={<NotFound />} />
     </Routes>
