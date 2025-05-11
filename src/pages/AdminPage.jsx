@@ -115,6 +115,7 @@ const AdminPage = () => {
     const handleEdit = (user) => {
         setCurrentUser(user);
         setFormData({
+            id: user.id,
             name: user.name || "",
             email: user.email || "",
             role: user.role || "buyer",
@@ -127,6 +128,7 @@ const AdminPage = () => {
     const handleCreate = () => {
         setCurrentUser(null);
         setFormData({
+            id: "",
             name: "",
             email: "",
             role: activeTab === "buyers" ? "buyer" : "seller",
@@ -147,7 +149,7 @@ const AdminPage = () => {
                         email: formData.email,
                         role: formData.role,
                         status: formData.status,
-                        updated_at: new Date()
+                        // updated_at: new Date()
                     })
                     .eq("id", currentUser.id);
 
@@ -160,7 +162,7 @@ const AdminPage = () => {
                         name: formData.name,
                         email: formData.email,
                         role: formData.role,
-                        // status: formData.status,
+                        status: formData.status,
                         // created_at: new Date()
                     }]);
 
@@ -267,7 +269,7 @@ const AdminPage = () => {
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Status</th>
-                                    <th>Created At</th>
+                                    {/* <th>Created At</th> */}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -288,7 +290,7 @@ const AdminPage = () => {
                                                     {buyer.status}
                                                 </span>
                                             </td>
-                                            <td>{new Date(buyer.created_at).toLocaleDateString()}</td>
+                                            {/* <td>{new Date(buyer.created_at).toLocaleDateString()}</td> */}
                                             <td>
                                                 <Button
                                                     color="info"
@@ -320,9 +322,9 @@ const AdminPage = () => {
                             <h3>Sellers List</h3>
                         </Col>
                         <Col className="text-end">
-                            {/* <Button color="primary" onClick={handleCreate}>
+                            <Button color="primary" onClick={handleCreate}>
                                 Add New Seller
-                            </Button> */}
+                            </Button>
                         </Col>
                     </Row>
 
@@ -335,7 +337,7 @@ const AdminPage = () => {
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Status</th>
-                                    <th>Created At</th>
+                                    {/* <th>Created At</th> */}
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -356,7 +358,7 @@ const AdminPage = () => {
                                                     {seller.status}
                                                 </span>
                                             </td>
-                                            <td>{new Date(seller.created_at).toLocaleDateString()}</td>
+                                            {/* <td>{new Date(seller.created_at).toLocaleDateString()}</td> */}
                                             <td>
                                                 <Button
                                                     color="info"
@@ -384,7 +386,7 @@ const AdminPage = () => {
             </TabContent>
 
             {/* Add/Edit User Modal */}
-            {/* <Modal isOpen={modal} toggle={toggleModal}>
+            <Modal isOpen={modal} toggle={toggleModal}>
                 <ModalHeader toggle={toggleModal}>
                     {currentUser ? "Edit User" : "Add New User"}
                 </ModalHeader>
@@ -451,7 +453,7 @@ const AdminPage = () => {
                         Cancel
                     </Button>
                 </ModalFooter>
-            </Modal> */}
+            </Modal>
         </Container>
     );
 };
