@@ -15,6 +15,7 @@ import Login from "../pages/login";
 import Register from "../pages/Register-page"; // Corrected import
 import ManageBikes from "../pages/ManageBikes";
 import BookingHistory from "../pages/BookingHistory";
+import AdminPage from "../pages/AdminPage";
 
 const Routers = () => {
   return (
@@ -40,6 +41,7 @@ const Routers = () => {
       <Route path="/bookings-history" element={<BookingHistory />} />{" "}
       {/* Corrected route */}
       <Route path="*" element={<NotFound />} />
+      <Route path="/admin-page" element={<AdminPage/>}></Route>
     </Routes>
   );
 };

@@ -1,0 +1,66 @@
+.admin-page .nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .admin-page .nav-link {
+    cursor: pointer;
+    color: #495057;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .admin-page .nav-link.active {
+    color: #495057;
+    background-color: #fff;
+    border-color: #dee2e6 #dee2e6 #fff;
+  }
+  
+  .admin-page .tab-content {
+    padding: 20px 0;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    text-transform: capitalize;
+  }
+  
+  .status-badge.active {
+    color: #fff;
+    background-color: #28a745;
+  }
+  
+  .status-badge.inactive {
+    color: #fff;
+    background-color: #dc3545;
+  }
+  
+  .status-badge.pending {
+    color: #212529;
+    background-color: #ffc107;
+  }
+  
+  .admin-page h2 {
+    color: #343a40;
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-page h3 {
+    color: #495057;
+    font-size: 1.5rem;
+  }
+  
+  .admin-page .table th {
+    background-color: #f8f9fa;
+  }
+  
