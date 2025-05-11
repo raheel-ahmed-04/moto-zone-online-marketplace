@@ -15,12 +15,9 @@ import Login from "../pages/login";
 import Register from "../pages/Register-page"; // Corrected import
 import ManageBikes from "../pages/ManageBikes";
 import BookingHistory from "../pages/BookingHistory";
-<<<<<<< HEAD
-import AdminPage from "../pages/AdminPage";
-=======
 import ChatPage from "../pages/ChatPage"; 
+import AdminPage from "../pages/AdminPage"; // New Admin Page
 
->>>>>>> 98ae1ac7179f44139d8a5c01c3ec8a2acefc52b7
 
 const Routers = () => {
   return (

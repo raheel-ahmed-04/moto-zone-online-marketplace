@@ -30,22 +30,23 @@ const AdminPage = () => {
     const [sellers, setSellers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    //   const [isAdmin, setIsAdmin] = useState(false);
+      const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
+
     // Check if user is admin
-    // useEffect(() => {
-    //     const checkAdmin = () => {
-    //         const isAdminUser = localStorage.getItem("isAdmin") === "true";
-    //         setIsAdmin(isAdminUser);
+    useEffect(() => {
+        const checkAdmin = () => {
+            const isAdminUser = localStorage.getItem("isAdmin") === "true";
+            setIsAdmin(isAdminUser);
 
-    //         if (!isAdminUser) {
-    //             navigate("/home");
-    //         }
-    //     };
+            if (!isAdminUser) {
+                navigate("/home");
+            }
+        };
 
-    //     checkAdmin();
-    // }, [navigate]);
+        checkAdmin();
+    }, [navigate]);
 
     // Fetch data
     useEffect(() => {
@@ -159,8 +160,8 @@ const AdminPage = () => {
                         name: formData.name,
                         email: formData.email,
                         role: formData.role,
-                        status: formData.status,
-                        created_at: new Date()
+                        // status: formData.status,
+                        // created_at: new Date()
                     }]);
 
                 if (error) throw error;
@@ -251,9 +252,9 @@ const AdminPage = () => {
                             <h3>Buyers List</h3>
                         </Col>
                         <Col className="text-end">
-                            <Button color="primary" onClick={handleCreate}>
+                            {/* <Button color="primary" onClick={handleCreate}>
                                 Add New Buyer
-                            </Button>
+                            </Button> */}
                         </Col>
                     </Row>
 
@@ -319,9 +320,9 @@ const AdminPage = () => {
                             <h3>Sellers List</h3>
                         </Col>
                         <Col className="text-end">
-                            <Button color="primary" onClick={handleCreate}>
+                            {/* <Button color="primary" onClick={handleCreate}>
                                 Add New Seller
-                            </Button>
+                            </Button> */}
                         </Col>
                     </Row>
 
@@ -383,7 +384,7 @@ const AdminPage = () => {
             </TabContent>
 
             {/* Add/Edit User Modal */}
-            <Modal isOpen={modal} toggle={toggleModal}>
+            {/* <Modal isOpen={modal} toggle={toggleModal}>
                 <ModalHeader toggle={toggleModal}>
                     {currentUser ? "Edit User" : "Add New User"}
                 </ModalHeader>
@@ -450,7 +451,7 @@ const AdminPage = () => {
                         Cancel
                     </Button>
                 </ModalFooter>
-            </Modal>
+            </Modal> */}
         </Container>
     );
 };

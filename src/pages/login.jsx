@@ -125,7 +125,7 @@ const Login = () => {
       setShowToast(true)
       setTimeout(() => {
         setShowToast(false)
-        navigate("/admin")
+        navigate("/admin-page")
       }, 3000)
     } catch (err) {
       console.error("Admin login error:", err.message || err)

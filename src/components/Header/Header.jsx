@@ -28,10 +28,10 @@ const navLinks = [
     path: "/contact",
     display: "Contact",
   },
-  {
-    path: "/admin",
-    display: "Admin",
-  }
+  // {
+  //   path: "/admin",
+  //   display: "Admin",
+  // }
 ];
 
 const Header = () => {
