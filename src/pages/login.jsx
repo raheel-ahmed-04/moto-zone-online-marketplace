@@ -91,7 +91,7 @@ const Login = () => {
     try {
       const { data: users, error } = await supabase
         .from("users")
-        .select("name, email, role")
+        .select("id, name, email, role")
         .eq("email", userFormData.email)
         .eq("password", userFormData.password)
         .eq("role", userFormData.role);
@@ -112,6 +112,7 @@ const Login = () => {
       sessionStorage.setItem("userName", user.name);
       sessionStorage.setItem("role", user.role);
       sessionStorage.setItem("isAdmin", "false");
+      sessionStorage.setItem("userId", user.id); // Add this line
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);

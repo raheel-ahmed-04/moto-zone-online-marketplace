@@ -9,8 +9,8 @@ const navLinks = [
   { path: "/about", display: "About" },
   { path: "/cars", display: "Cars" },
   { path: "/bikes", display: "Bikes" },
-  { path: "/bike-accessories", display: "Bike Accessories" },   // Updated path
-  { path: "/car-accessories", display: "Car Accessories" },     // Updated path
+  { path: "/bike-accessories", display: "Bike Accessories" }, // Updated path
+  { path: "/car-accessories", display: "Car Accessories" }, // Updated path
   { path: "/blogs", display: "Blog" },
   { path: "/contact", display: "Contact" },
 ];
@@ -60,10 +60,16 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Link to="/login" className="d-flex align-items-center gap-1">
+                    <Link
+                      to="/login"
+                      className="d-flex align-items-center gap-1"
+                    >
                       <i className="ri-login-circle-line"></i> Login
                     </Link>
-                    <Link to="/register" className="d-flex align-items-center gap-1">
+                    <Link
+                      to="/register"
+                      className="d-flex align-items-center gap-1"
+                    >
                       <i className="ri-user-line"></i> Register
                     </Link>
                   </>
@@ -109,7 +115,10 @@ const Header = () => {
               sm="4"
               className="d-flex align-items-center justify-content-end"
             >
-              <button className="header__btn btn" style={{ backgroundColor: "#ffc107" }}>
+              <button
+                className="header__btn btn"
+                style={{ backgroundColor: "#ffc107" }}
+              >
                 <Link to="/contact" style={{ color: "inherit" }}>
                   <i className="ri-phone-line"></i> Request a call
                 </Link>
@@ -144,23 +153,35 @@ const Header = () => {
                 ))}
                 {isAdmin && (
                   <button
-                  className="header__btn btn"
-                  style={{ backgroundColor: "#11589a" }}
+                    className="header__btn btn"
+                    style={{ backgroundColor: "#11589a" }}
                   >
-                  <Link to="/admin-page" style={{ color: "#ffc107" }}>
-                    <i className="ri-user-line"></i> Admin Dashboard
-                  </Link>
-                </button>
+                    <Link to="/admin-page" style={{ color: "#ffc107" }}>
+                      <i className="ri-user-line"></i> Admin Dashboard
+                    </Link>
+                  </button>
+                )}
+                {role === "seller" && (
+                  <button
+                    className="header__btn btn"
+                    style={{ backgroundColor: "#11589a" }}
+                  >
+                    <Link to="/seller-dashboard" style={{ color: "#ffc107" }}>
+                      <i className="ri-store-2-line"></i> Seller Dashboard
+                    </Link>
+                  </button>
                 )}
               </div>
             </div>
 
-            <div className="search__box">
-              <input type="text" placeholder="Search" />
-              <span>
-                <i className="ri-search-line"></i>
-              </span>
-            </div>
+            {role === "buyer" && (
+              <div className="search__box">
+                <input type="text" placeholder="Search" />
+                <span>
+                  <i className="ri-search-line"></i>
+                </span>
+              </div>
+            )}
           </div>
         </Container>
       </div>

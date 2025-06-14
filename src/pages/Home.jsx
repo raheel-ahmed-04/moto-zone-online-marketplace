@@ -18,13 +18,13 @@ const Home = () => {
   const [cars, setCars] = useState([]);
   useEffect(() => {
     const fetchCars = async () => {
-      try {
-        // Replace "http://localhost:2000" with your backend server URL/port
-        const { data } = await axios.get("http://localhost:2000/api/cars");
-        setCars(data);
-      } catch (error) {
-        console.error("Error fetching cars:", error);
-      }
+      // try {
+      //   // Replace "http://localhost:2000" with your backend server URL/port
+      //   const { data } = await axios.get("http://localhost:2000/api/cars");
+      //   setCars(data);
+      // } catch (error) {
+      //   console.error("Error fetching cars:", error);
+      // }
     };
     fetchCars();
   }, []);

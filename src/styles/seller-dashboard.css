@@ -1,0 +1,60 @@
+.seller-dashboard {
+  padding: 2rem 0;
+}
+
+.seller-dashboard h2 {
+  margin-bottom: 2rem;
+  color: #000d6b;
+}
+
+.seller-dashboard .nav-tabs {
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 2rem;
+}
+
+.seller-dashboard .nav-link {
+  color: #000d6b;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.seller-dashboard .nav-link.active {
+  color: #000d6b;
+  font-weight: bold;
+  border-bottom: 2px solid #000d6b;
+}
+
+.seller-dashboard .btn-primary {
+  background-color: #000d6b;
+  border-color: #000d6b;
+}
+
+.seller-dashboard .btn-warning {
+  background-color: #f9a826;
+  border-color: #f9a826;
+  color: white;
+}
+
+.seller-dashboard .table {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seller-dashboard .table th {
+  background-color: #f8f9fa;
+  color: #000d6b;
+}
+
+.seller-dashboard .modal-header {
+  background-color: #000d6b;
+  color: white;
+}
+
+.seller-dashboard .modal-header .close {
+  color: white;
+}
+
+.seller-dashboard .form-group {
+  margin-bottom: 1rem;
+}
