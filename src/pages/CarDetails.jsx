@@ -1,38 +1,67 @@
-import React, { useEffect } from "react";
-
-import carData from "../assets/data/carData";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom";
 import BookingForm from "../components/UI/BookingForm";
 import PaymentMethod from "../components/UI/PaymentMethod";
+import { supabase } from "../../lib/supabase";
+import LoadingSpinner from "../components/UI/LoadingSpinner";
+import "../styles/error-message.css";
 
 const CarDetails = () => {
   const { slug } = useParams();
-
-  const singleCarItem = carData.find((item) => item.carName === slug);
+  const [car, setCar] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchCar = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("cars")
+          .select(
+            `
+            *,
+            users:seller_id (
+              name,
+              email
+            )
+          `
+          )
+          .eq("carname", slug)
+          .single();
+
+        if (error) throw error;
+        setCar(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCar();
     window.scrollTo(0, 0);
-  }, [singleCarItem]);
+  }, [slug]);
+  if (loading) return <LoadingSpinner />;
+  if (error) return <div className="error-message">Error: {error}</div>;
+  if (!car) return <h2>Car not found!</h2>;
 
   return (
-    <Helmet title={singleCarItem.carName}>
+    <Helmet title={car.carname}>
       <section>
         <Container>
           <Row>
             <Col lg="6">
-              <img src={singleCarItem.imgUrl} alt={singleCarItem.carName} className="w-100" />
+              <img src={car.imgurl} alt={car.carname} className="w-100" />
             </Col>
 
             <Col lg="6">
               <div className="car__info">
-                <h2 className="section__title">{singleCarItem.carName}</h2>
+                <h2 className="section__title">{car.carname}</h2>
 
                 <div className="d-flex align-items-center gap-5 mb-4 mt-3">
-                  <h6 className="price fw-bold fs-4">
-                    ${singleCarItem.price}.00
-                  </h6>
+                  <h6 className="price fw-bold fs-4">${car.price}.00</h6>
 
                   <span className="d-flex align-items-center gap-2">
                     <span style={{ color: "#f9a826" }}>
@@ -42,31 +71,65 @@ const CarDetails = () => {
                       <i className="ri-star-s-fill"></i>
                       <i className="ri-star-s-fill"></i>
                     </span>
-                    ({singleCarItem.rating} ratings)
+                    ({car.rating} ratings)
                   </span>
                 </div>
 
-                <p className="section__description">
-                  {singleCarItem.description}
-                </p>
+                <p className="section__description">{car.description}</p>
 
                 <div
                   className="d-flex align-items-center mt-3"
                   style={{ columnGap: "4rem" }}
                 >
+                  {" "}
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-roadster-line" style={{ color: "#f9a826" }}></i>{" "}
-                    {singleCarItem.model}
+                    <i
+                      className="ri-roadster-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.model}
                   </span>
-
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-settings-2-line" style={{ color: "#f9a826" }}></i>{" "}
-                    {singleCarItem.automatic}
+                    <i
+                      className="ri-settings-2-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.automatic}
                   </span>
-
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-timer-flash-line" style={{ color: "#f9a826" }}></i>{" "}
-                    {singleCarItem.speed}
+                    <i
+                      className="ri-timer-flash-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.speed}
+                  </span>
+                </div>
+
+                <div
+                  className="d-flex align-items-center mt-3"
+                  style={{ columnGap: "2.8rem" }}
+                >
+                  {" "}
+                  <span className="d-flex align-items-center gap-1 section__description">
+                    <i
+                      className="ri-map-pin-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.gps}
+                  </span>
+                  <span className="d-flex align-items-center gap-1 section__description">
+                    <i
+                      className="ri-wheelchair-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.seatType}
+                  </span>{" "}
+                  <span className="d-flex align-items-center gap-1 section__description">
+                    <i
+                      className="ri-building-2-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.brand}
                   </span>
                 </div>
 
@@ -75,18 +138,19 @@ const CarDetails = () => {
                   style={{ columnGap: "2.8rem" }}
                 >
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-map-pin-line" style={{ color: "#f9a826" }}></i>{" "}
-                    {singleCarItem.gps}
+                    <i
+                      className="ri-user-3-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    Seller: {car.users?.name || "Unknown"}
                   </span>
 
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-wheelchair-line" style={{ color: "#f9a826" }}></i>{" "}
-                    {singleCarItem.seatType}
-                  </span>
-
-                  <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-building-2-line" style={{ color: "#f9a826" }}></i>{" "}
-                    {singleCarItem.brand}
+                    <i
+                      className="ri-mail-line"
+                      style={{ color: "#f9a826" }}
+                    ></i>{" "}
+                    {car.users?.email || "N/A"}
                   </span>
                 </div>
               </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
+import LoadingSpinner from "../components/UI/LoadingSpinner";
 import {
   Container,
   Nav,
@@ -207,7 +208,7 @@ const SellerDashboard = () => {
     toggleModal(false);
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <div>Error: {error}</div>;
   if (role !== "seller") return null;
 
