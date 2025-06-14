@@ -1,37 +1,18 @@
 import React from "react";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../styles/header.css";
 
+// Updated navLinks array
 const navLinks = [
-  {
-    path: "/home",
-    display: "Home",
-  },
-  {
-    path: "/about",
-    display: "About",
-  },
-  {
-    path: "/cars",
-    display: "Cars",
-  },
-  {
-    path: "/bikes",
-    display: "Bikes",
-  },
-  {
-    path: "/blogs",
-    display: "Blog",
-  },
-  {
-    path: "/contact",
-    display: "Contact",
-  },
-  // {
-  //   path: "/admin",
-  //   display: "Admin",
-  // }
+  { path: "/home", display: "Home" },
+  { path: "/about", display: "About" },
+  { path: "/cars", display: "Cars" },
+  { path: "/bikes", display: "Bikes" },
+  { path: "/bike-accessories", display: "Bike Accessories" },   // Updated path
+  { path: "/car-accessories", display: "Car Accessories" },     // Updated path
+  { path: "/blogs", display: "Blog" },
+  { path: "/contact", display: "Contact" },
 ];
 
 const Header = () => {
@@ -50,6 +31,7 @@ const Header = () => {
 
   return (
     <header className="header">
+      {/* ===== Top Header ===== */}
       <div className="header__top">
         <Container>
           <Row>
@@ -78,16 +60,10 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Link
-                      to="/login"
-                      className="d-flex align-items-center gap-1"
-                    >
+                    <Link to="/login" className="d-flex align-items-center gap-1">
                       <i className="ri-login-circle-line"></i> Login
                     </Link>
-                    <Link
-                      to="/register"
-                      className="d-flex align-items-center gap-1"
-                    >
+                    <Link to="/register" className="d-flex align-items-center gap-1">
                       <i className="ri-user-line"></i> Register
                     </Link>
                   </>
@@ -98,6 +74,7 @@ const Header = () => {
         </Container>
       </div>
 
+      {/* ===== Middle Header ===== */}
       <div className="header__middle">
         <Container>
           <Row className="align-items-center">
@@ -132,10 +109,7 @@ const Header = () => {
               sm="4"
               className="d-flex align-items-center justify-content-end"
             >
-              <button
-                className="header__btn btn"
-                style={{ backgroundColor: "#ffc107" }}
-              >
+              <button className="header__btn btn" style={{ backgroundColor: "#ffc107" }}>
                 <Link to="/contact" style={{ color: "inherit" }}>
                   <i className="ri-phone-line"></i> Request a call
                 </Link>
@@ -148,6 +122,7 @@ const Header = () => {
         </Container>
       </div>
 
+      {/* ===== Navigation Bar ===== */}
       <div className="main__navbar">
         <Container>
           <div className="navigation__wrapper d-flex align-items-center justify-content-between">
