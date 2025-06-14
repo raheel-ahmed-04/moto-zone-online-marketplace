@@ -17,7 +17,7 @@ import ManageBikes from "../pages/ManageBikes";
 import BookingHistory from "../pages/BookingHistory";
 import ChatPage from "../pages/ChatPage"; 
 import AdminPage from "../pages/AdminPage"; // New Admin Page
-
+import BikeAccessories from "../pages/BikeAccessories";
 
 const Routers = () => {
   return (
@@ -26,6 +26,7 @@ const Routers = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/cars" element={<CarListing />} />
+      <Route path="/bike-accessories" element={<BikeAccessories />} />
       <Route path="/cars/:slug" element={<CarDetails />} />
       <Route path="/bikes" element={<BikeListing />} />{" "}
       {/* New Bike Listing Route */}
