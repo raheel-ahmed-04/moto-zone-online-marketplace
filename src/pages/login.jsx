@@ -47,10 +47,7 @@ const Login = () => {
   useEffect(() => {
     async function testConnection() {
       try {
-        const { error } = await supabase
-          .from("users")
-          .select("user_id")
-          .limit(1);
+        const { error } = await supabase.from("users").select("id").limit(1);
         if (error) {
           console.error("Connection test error:", error);
           setConnectionStatus(`Connection error: ${error.message}`);

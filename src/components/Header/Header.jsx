@@ -69,7 +69,7 @@ const Header = () => {
                       <i className="ri-user-line"></i> {userName} ({role})
                     </span>
                     <Link
-                      to="#"
+                      to="/login"
                       className="d-flex align-items-center gap-1"
                       onClick={handleLogout}
                     >
@@ -80,7 +80,7 @@ const Header = () => {
                   <>
                     <Link
                       to="/login"
-                      className="d-flex align-items-center gap-1"
+                      className="font-[#ffc107] d-flex align-items-center gap-1"
                     >
                       <i className="ri-login-circle-line"></i> Login
                     </Link>
@@ -167,6 +167,16 @@ const Header = () => {
                     {link.display}
                   </NavLink>
                 ))}
+                {isAdmin && (
+                  <button
+                  className="header__btn btn"
+                  style={{ backgroundColor: "#11589a" }}
+                  >
+                  <Link to="/admin-page" style={{ color: "#ffc107" }}>
+                    <i className="ri-user-line"></i> Admin Dashboard
+                  </Link>
+                </button>
+                )}
               </div>
             </div>
 
