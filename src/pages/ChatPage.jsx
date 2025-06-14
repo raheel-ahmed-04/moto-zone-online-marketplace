@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const ChatPage = () => {
   const [selectedContact, setSelectedContact] = useState(null);
   const [input, setInput] = useState("");
-  const userRole = localStorage.getItem("role") || "buyer"; // Default to buyer for testing
-  const userName = localStorage.getItem("userName") || "Raheel Ahmed"; // Default for testing
+  const userRole = sessionStorage.getItem("role") || "buyer"; // Default to buyer for testing
+  const userName = sessionStorage.getItem("userName") || "Raheel Ahmed"; // Default for testing
   const userId = 1; // Dummy user ID for current user (Raheel Ahmed)
 
   // Dummy data
@@ -19,18 +19,18 @@ const ChatPage = () => {
 
   const dummyMessages = [
     {
-    id: 7,
-    senderId: 1,
-    receiverId: 6,
-    content: "Hi, is the Helmet you were selling still available?",
-    timestamp: "2025-05-07T11:05:00Z",
+      id: 7,
+      senderId: 1,
+      receiverId: 6,
+      content: "Hi, is the Helmet you were selling still available?",
+      timestamp: "2025-05-07T11:05:00Z",
     },
     {
-    id: 8,
-    senderId: 6,
-    receiverId: 1,
-    content: "Yes, Are you interested?",
-    timestamp: "2025-05-07T11:05:00Z",
+      id: 8,
+      senderId: 6,
+      receiverId: 1,
+      content: "Yes, Are you interested?",
+      timestamp: "2025-05-07T11:05:00Z",
     },
     {
       id: 1,
@@ -82,11 +82,15 @@ const ChatPage = () => {
     dummyMessages.forEach((msg) => {
       if (userRole === "buyer" && msg.senderId === userId) {
         // Buyer sees sellers they've messaged
-        const seller = dummyUsers.find((u) => u.id === msg.receiverId && u.role === "seller");
+        const seller = dummyUsers.find(
+          (u) => u.id === msg.receiverId && u.role === "seller"
+        );
         if (seller) contacts.add(JSON.stringify(seller));
       } else if (userRole === "seller" && msg.receiverId === userId) {
         // Seller sees buyers who messaged them
-        const buyer = dummyUsers.find((u) => u.id === msg.senderId && u.role === "buyer");
+        const buyer = dummyUsers.find(
+          (u) => u.id === msg.senderId && u.role === "buyer"
+        );
         if (buyer) contacts.add(JSON.stringify(buyer));
       }
     });
@@ -163,7 +167,9 @@ const ChatPage = () => {
               </div>
               <div>
                 <div className="font-medium">{selectedContact.name}</div>
-                <div className="text-sm text-gray-500">{selectedContact.role}</div>
+                <div className="text-sm text-gray-500">
+                  {selectedContact.role}
+                </div>
               </div>
             </div>
 

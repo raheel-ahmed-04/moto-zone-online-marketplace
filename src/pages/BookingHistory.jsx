@@ -11,8 +11,8 @@ const BookingHistory = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // 1) Get userName from localStorage
-        const userName = localStorage.getItem("userName");
+        // 1) Get userName from sessionStorage
+        const userName = sessionStorage.getItem("userName");
         if (!userName) {
           setError("No user logged in");
           return;
