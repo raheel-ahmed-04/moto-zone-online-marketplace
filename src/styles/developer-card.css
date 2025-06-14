@@ -1,0 +1,56 @@
+.developer__card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 13, 107, 0.1);
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.developer__card:hover {
+  transform: translateY(-5px);
+}
+
+.developer__img {
+  width: 200px !important;
+  height: 200px !important;
+  object-fit: cover;
+  border: 3px solid #000d6b;
+  margin: 0 auto;
+}
+
+.developer__card h5 {
+  color: #000d6b;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  font-weight: 600;
+}
+
+.developer__card p {
+  color: #7c8a97;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.developer__card .ri-github-fill,
+.developer__card .ri-linkedin-fill {
+  color: #000d6b;
+  transition: color 0.3s ease;
+}
+
+.developer__card .ri-github-fill:hover,
+.developer__card .ri-linkedin-fill:hover {
+  color: #f9a826;
+}
+
+@media only screen and (max-width: 768px) {
+  .developer__img {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  
+  .developer__card {
+    padding: 1rem;
+  }
+}
