@@ -10,7 +10,7 @@ const navLinks = [
   { path: "/cars", display: "Cars" },
   { path: "/bikes", display: "Bikes" },
   { path: "/bike-accessories", display: "Bike Accessories" }, // Updated path
-  { path: "/car-accessories", display: "Car Accessories" }, // Updated path
+
   { path: "/blogs", display: "Blog" },
   { path: "/contact", display: "Contact" },
 ];

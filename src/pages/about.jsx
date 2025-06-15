@@ -11,7 +11,7 @@ import "../styles/developer-card.css";
 // Placeholder images for developers (replace with actual images)
 import raheelImg from "../assets/all-images/developers/raheel.jpg";
 import ahadImg from "../assets/all-images/developers/ahad.jpg";
-import bilalImg from "../assets/all-images/developers/bilal.jpg";
+import bilalImg from "../assets/all-images/developers/bilal.jpeg";
 import ahmadImg from "../assets/all-images/developers/ahmad.jpg";
 
 const About = () => {

@@ -2,7 +2,6 @@
 import accessory1 from "../all-images/bike-accessories/helmet.jpg";
 import accessory2 from "../all-images/bike-accessories/gloves.jpg";
 
-
 const bikeAccessoriesData = [
   {
     id: 1,
@@ -18,6 +17,7 @@ const bikeAccessoriesData = [
     imgUrl: accessory2,
     description: "Durable gloves with breathable material and strong grip.",
   },
+  
  
 ];
 

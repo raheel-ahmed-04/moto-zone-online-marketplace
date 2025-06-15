@@ -5,19 +5,20 @@ import About from "../pages/About";
 import CarListing from "../pages/CarListing";
 import CarDetails from "../pages/CarDetails";
 import ManageCars from "../pages/ManageCars";
-import BikeListing from "../pages/BikeListing"; // New Bike Listing page
-import BikeDetails from "../pages/BikeDetails"; // New Bike Details page
+import BikeListing from "../pages/BikeListing";
+import BikeDetails from "../pages/BikeDetails";
 import Blog from "../pages/Blog";
 import BlogDetails from "../pages/BlogDetails";
 import NotFound from "../pages/NotFound";
 import Contact from "../pages/Contact";
 import Login from "../pages/login";
-import Register from "../pages/Register-page"; // Corrected import
+import Register from "../pages/Register-page";
 import ManageBikes from "../pages/ManageBikes";
 import BookingHistory from "../pages/BookingHistory";
 import ChatPage from "../pages/ChatPage";
-import AdminPage from "../pages/AdminPage"; // New Admin Page
+import AdminPage from "../pages/AdminPage";
 import BikeAccessories from "../pages/BikeAccessories";
+
 import SellerDashboard from "../pages/SellerDashboard";
 
 const Routers = () => {
@@ -27,28 +28,24 @@ const Routers = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/cars" element={<CarListing />} />
-      <Route path="/bike-accessories" element={<BikeAccessories />} />
       <Route path="/cars/:slug" element={<CarDetails />} />
-      <Route path="/bikes" element={<BikeListing />} />{" "}
-      {/* New Bike Listing Route */}
-      <Route path="/bikes/:slug" element={<BikeDetails />} />{" "}
-      {/* New Bike Details Route */}
+      <Route path="/bikes" element={<BikeListing />} />
+      <Route path="/bikes/:slug" element={<BikeDetails />} />
       <Route path="/blogs" element={<Blog />} />
       <Route path="/blogs/:slug" element={<BlogDetails />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} /> {/* Corrected route */}
-      <Route path="/manage-cars" element={<ManageCars />} />{" "}
-      {/* Corrected route */}
-      <Route path="/manage-bikes" element={<ManageBikes />} />{" "}
-      {/* Corrected route */}
-      <Route path="/bookings-history" element={<BookingHistory />} />{" "}
-      {/* Admin route for managing cars */}
-      <Route path="/admin" element={<ManageCars />} />{" "}
-      <Route path="/chat" element={<ChatPage />} /> {/* Corrected route */}
-      <Route path="*" element={<NotFound />} />
-      <Route path="/admin-page" element={<AdminPage />}></Route>
+      <Route path="/register" element={<Register />} />
+      <Route path="/manage-cars" element={<ManageCars />} />
+      <Route path="/manage-bikes" element={<ManageBikes />} />
+      <Route path="/bookings-history" element={<BookingHistory />} />
+      <Route path="/admin" element={<ManageCars />} />
+      <Route path="/chat" element={<ChatPage />} />
+      <Route path="/admin-page" element={<AdminPage />} />
       <Route path="/seller-dashboard" element={<SellerDashboard />} />
+      <Route path="/bike-accessories" element={<BikeAccessories />} />
+   
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
