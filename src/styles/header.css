@@ -308,4 +308,21 @@
     font-size: 1rem; /* Adjust button font size for mobile */
   }
 }
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
 
+.site-logo {
+  height: 170px;
+  width: auto;
+  margin-right: -10px; /* ✅ This adds gap between logo and text */
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
