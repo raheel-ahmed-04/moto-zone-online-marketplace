@@ -12,6 +12,7 @@ const navLinks = [
   { path: "/bike-accessories", display: "Bike Accessories" },
   { path: "/blogs", display: "Blog" },
   { path: "/contact", display: "Contact" },
+   { path: "/car-accessories", display: "Car Accessories" },
   { path: "/wishlist", display: "Wishlist" },
 
 ];
