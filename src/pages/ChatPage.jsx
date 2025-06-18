@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import io from "socket.io-client";
 import { supabase } from "../../lib/supabase";
 import "../styles/chat.css";
@@ -14,43 +14,93 @@ const ChatPage = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [unreadCounts, setUnreadCounts] = useState({});
+  const location = useLocation();
 
   const userRole = sessionStorage.getItem("role") || "buyer";
   const userName = sessionStorage.getItem("userName");
   const userId = parseInt(sessionStorage.getItem("userId"), 10);
-  // Fetch contacts from Supabase
+
+  // Parse query params for contactId and dummyMessage
+  const queryParams = new URLSearchParams(location.search);
+  const preselectContactId = queryParams.get("contactId");
+  const dummyMessage = queryParams.get("dummyMessage");
+
+  // Fetch contacts and handle preselected contact
   useEffect(() => {
-    const fetchContacts = async () => {
+    const fetchContactsWithMessages = async () => {
       try {
-        const { data, error } = await supabase
-          .from("users")
-          .select("id, name, role")
-          .neq("id", userId); // Exclude current user
+        // Fetch all messages involving the user
+        const { data: messagesData, error: messagesError } = await supabase
+          .from("messages")
+          .select("*")
+          .or(`senderId.eq.${userId},receiverId.eq.${userId}`);
 
-        if (error) throw error;
+        if (messagesError) throw messagesError;
 
-        // Filter contacts based on role
-        const filteredContacts = data.filter(
-          (u) =>
-            (userRole === "buyer" && u.role === "seller") ||
-            (userRole === "seller" && u.role === "buyer")
+        setMessages(messagesData);
+
+        // Get unique contact IDs
+        const contactIds = Array.from(
+          new Set(
+            messagesData
+              .map((msg) =>
+                msg.senderId === userId ? msg.receiverId : msg.senderId
+              )
+              .filter((id) => id !== userId)
+          )
         );
 
-        setContacts(filteredContacts);
+        // If preselectContactId exists and isn't in messages, fetch that user
+        if (preselectContactId && !contactIds.includes(Number(preselectContactId))) {
+          contactIds.push(Number(preselectContactId));
+        }
+
+        if (contactIds.length === 0) {
+          setContacts([]);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch user info for those contacts
+        const { data: usersData, error: usersError } = await supabase
+          .from("users")
+          .select("id, name, role")
+          .in("id", contactIds)
+          // Filter by role: buyers see sellers, sellers see buyers
+          .eq("role", userRole === "buyer" ? "seller" : "buyer");
+
+        if (usersError) throw usersError;
+        setContacts(usersData);
       } catch (err) {
-        console.error("Error fetching contacts:", err);
+        console.error("Error fetching contacts/messages:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (userId) {
-      fetchContacts();
-    }
-  }, [userId, userRole]);
+    if (userId) fetchContactsWithMessages();
+  }, [userId, preselectContactId, userRole]);
+
   // Handle new message
   const handleNewMessage = (data) => {
     setMessages((prev) => [...prev, data]);
+    
+    // Update contacts if new message is from/to a new contact
+    if (
+      !contacts.some((contact) => contact.id === data.senderId || contact.id === data.receiverId)
+    ) {
+      supabase
+        .from("users")
+        .select("id, name, role")
+        .eq("id", data.senderId === userId ? data.receiverId : data.senderId)
+        .single()
+        .then(({ data, error }) => {
+          if (!error && data && data.role === (userRole === "buyer" ? "seller" : "buyer")) {
+            setContacts((prev) => [...prev, data]);
+          }
+        });
+    }
+
     // Only increment unread count if message is from someone else and not the selected contact
     if (data.senderId !== userId && data.senderId !== selectedContact?.id) {
       setUnreadCounts((prev) => ({
@@ -61,6 +111,7 @@ const ChatPage = () => {
     // Scroll to bottom on new message
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
   // Setup socket connection and message handlers
   useEffect(() => {
     if (!userId || !userName) return;
@@ -82,41 +133,28 @@ const ChatPage = () => {
         socket.current.disconnect();
       }
     };
-  }, [userId, userName, selectedContact?.id]); // Add selectedContact?.id as dependency
-  // Fetch chat history from Supabase
-  useEffect(() => {
-    const fetchChatHistory = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("messages")
-          .select("*")
-          .or(`senderId.eq.${userId},receiverId.eq.${userId}`)
-          .order("timestamp", { ascending: true });
+  }, [userId, userName, selectedContact?.id]);
 
-        if (error) throw error;
-        setMessages(data);
-
-        // Initialize unread counts from chat history
-        const counts = {};
-        data.forEach((msg) => {
-          if (msg.senderId !== userId && msg.receiverId === userId) {
-            counts[msg.senderId] = (counts[msg.senderId] || 0) + 1;
-          }
-        });
-        setUnreadCounts(counts);
-      } catch (err) {
-        console.error("Error fetching chat history:", err);
-      }
-    };
-
-    fetchChatHistory();
-  }, [userId]);
   // Set default selected contact
   useEffect(() => {
-    if (contacts.length > 0 && !selectedContact) {
-      setSelectedContact(contacts[0]);
+    if (contacts.length > 0 && preselectContactId) {
+      const found = contacts.find((c) => String(c.id) === String(preselectContactId));
+      if (found) {
+        setSelectedContact(found);
+        setUnreadCounts((prev) => ({
+          ...prev,
+          [found.id]: 0,
+        }));
+      }
     }
-  }, [contacts]);
+  }, [contacts, preselectContactId]);
+
+  // Pre-fill input with dummy message
+  useEffect(() => {
+    if (dummyMessage) {
+      setInput(decodeURIComponent(dummyMessage));
+    }
+  }, [dummyMessage]);
 
   // Filter messages for selected contact
   const filteredMessages = messages.filter(
@@ -124,6 +162,7 @@ const ChatPage = () => {
       (msg.senderId === userId && msg.receiverId === selectedContact?.id) ||
       (msg.senderId === selectedContact?.id && msg.receiverId === userId)
   );
+
   // Send message via socket and save to Supabase
   const handleSend = async () => {
     if (!input.trim() || !selectedContact) return;
@@ -139,12 +178,23 @@ const ChatPage = () => {
     try {
       // Save message to Supabase
       const { error } = await supabase.from("messages").insert([newMessage]);
-
       if (error) throw error;
 
       // Send message through socket
       socket.current.emit("send_message", newMessage);
       setInput("");
+
+      // Add contact to list if not already present
+      if (!contacts.some((contact) => contact.id === selectedContact.id)) {
+        const { data, error } = await supabase
+          .from("users")
+          .select("id, name, role")
+          .eq("id", selectedContact.id)
+          .single();
+        if (!error && data) {
+          setContacts((prev) => [...prev, data]);
+        }
+      }
 
       // Scroll to bottom
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -166,7 +216,7 @@ const ChatPage = () => {
   // Auto scroll to bottom whenever messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [filteredMessages]);
 
   if (!userId || !userName) {
     return (
@@ -183,7 +233,7 @@ const ChatPage = () => {
             <h2 className="m-0">
               {userRole === "buyer" ? "Sellers" : "Buyers"}
             </h2>
-          </div>{" "}
+          </div>
           {loading ? (
             <div className="empty-state">
               Loading contacts<span className="loading-dots"></span>
@@ -219,7 +269,7 @@ const ChatPage = () => {
               );
             })
           )}
-        </div>{" "}
+        </div>
         {/* Right: Chat Area */}
         <div className="col-8 d-flex flex-column h-100">
           {selectedContact ? (

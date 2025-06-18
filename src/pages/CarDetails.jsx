@@ -111,9 +111,17 @@ const CarDetails = () => {
                         padding: "0.3rem 1.2rem",
                         marginLeft: 16,
                       }}
-                      onClick={() => navigate("/chat")}
+                      onClick={() =>
+                        navigate(
+                          `/chat?contactId=${
+                            car.seller_id
+                          }&dummyMessage=${encodeURIComponent(
+                            `can i get more details about your product-${car.carname}`
+                          )}`
+                        )
+                      }
                     >
-                      <i className="ri-chat-3-line me-2"></i> Chat with Seller
+                      <i className="ri-chat-3-line me-2"></i> Negotiate with Seller
                     </button>
                   </span>
                 </h2>
@@ -225,7 +233,15 @@ const CarDetails = () => {
                       padding: "0.75rem 2.5rem",
                       fontSize: "1.2rem",
                     }}
-                    onClick={() => navigate("/chat")}
+                    onClick={() =>
+                      navigate(
+                        `/chat?contactId=${
+                          car.seller_id
+                        }&dummyMessage=${encodeURIComponent(
+                          `can i get more details about your product-${car.carname}`
+                        )}`
+                      )
+                    }
                   >
                     <i className="ri-chat-3-line me-2"></i> Chat with Seller
                   </button>
