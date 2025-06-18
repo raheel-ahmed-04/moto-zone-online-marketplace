@@ -1,5 +1,3 @@
-/* BikeListing.css */
-
 .bike-section-image {
   margin-bottom: 2rem;
   text-align: center;
@@ -12,94 +10,13 @@
 }
 
 .bike__item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease;
-  height: 100%;
-}
-
-.bike__item:hover {
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-.bike__item-content {
-  text-align: center;
-  width: 100%;
-}
-
-.bike__image {
-  border-radius: 8px;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.price {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.btn {
-  border: none;
-  padding: 0.5rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
-}
-
-.buy__btn {
-  background-color: #ff0000;
-  color: white;
-}
-
-.buy__btn:hover {
-  background-color: #cc0000;
-}
-
-.details__btn {
-  background-color: #003b73;
-  color: white;
-}
-
-.details__btn:hover {
-  background-color: #002a50;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-.wishlist-icon {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 1.6rem;
-  color: red;
-  cursor: pointer;
-  z-index: 10;
-  background-color: white;
-  border-radius: 50%;
-  padding: 5px;
-  transition: all 0.3s ease;
-}
-
-.wishlist-icon:hover {
-  color: #ff0000;
-  transform: scale(1.2);
-}
-.bike__item {
   border: 1px solid #ddd;
   padding: 15px;
   border-radius: 8px;
   background-color: #fff;
   transition: all 0.3s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
 .bike__item:hover {
@@ -107,7 +24,6 @@ a {
 }
 
 .bike__img {
-  position: relative;
   width: 100%;
   height: 200px;
   overflow: hidden;
@@ -118,8 +34,70 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
   border-radius: 5px;
+}
+
+.bike__item-content {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.bike__item h5 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.bike__item h6 {
+  font-size: 1rem;
+  color: #000d6b;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.bike__item p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.price {
+  font-weight: bold;
+  color: #000d6b;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.buy__btn,
+.details__btn {
+  border: none;
+  padding: 6px 15px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  color: white;
+}
+
+.buy__btn {
+  background-color: #f9a826;
+  border-radius: 4px 0px 0px 4px;
+}
+
+.buy__btn:hover {
+  background-color: #d18e10;
+}
+
+.details__btn {
+  background-color: #000d6b;
+  border-radius: 0px 4px 4px 0px;
+}
+
+.details__btn:hover {
+  background-color: #1a237e;
+}
+
+.btn-group {
+  display: flex;
+  margin-top: 1rem;
+  justify-content: center;
 }
 
 .wishlist-icon {
@@ -141,21 +119,38 @@ a {
   transform: scale(1.2);
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
 .buy__btn, .details__btn {
-  background-color: #000d6b;
-  color: #fff;
+  display: inline-block;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
   border: none;
-  padding: 6px 12px;
-  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s ease;
+  color: white;
 }
 
-.buy__btn:hover, .details__btn:hover {
+/* Yellow Buy Now */
+.buy__btn {
+  background-color: #f9a826;
+  border-radius: 4px 0px 0px 4px;
+}
+
+.buy__btn:hover {
+  background-color: #e28d00;
+}
+
+/* Blue View Details */
+.details__btn {
+  background-color: #000d6b;
+  border-radius: 0px 4px 4px 0px;
+}
+
+.details__btn:hover {
   background-color: #1a237e;
 }
-
-.price {
-  font-weight: bold;
-  color: #000d6b;
-}
-

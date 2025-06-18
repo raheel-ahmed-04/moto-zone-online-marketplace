@@ -41,30 +41,19 @@ const BikeAccessories = () => {
                     className="ri-heart-line wishlist-icon"
                     onClick={() => handleAddToWishlist(item)}
                     title="Add to Wishlist"
-                    style={{
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                      fontSize: "1.5rem",
-                      cursor: "pointer",
-                      color: "#f94c10",
-                      zIndex: 2,
-                    }}
                   ></i>
                   <img
                     src={item.imgUrl}
                     alt={item.name}
                     className="accessory__image"
-                    style={{ borderRadius: "10px", objectFit: "cover", height: "200px", width: "100%" }}
                   />
                   <div className="accessory__content mt-3">
                     <h4 className="text-center">{item.name}</h4>
                     <h6 className="price text-center">${item.price}.00</h6>
                     <p className="description text-center">{item.description}</p>
-                    <div className="d-flex justify-content-center mt-3">
-                      <button className="btn buy__btn">
-                        <Link to="/contact">Buy Now</Link>
-                      </button>
+                    <div className="d-flex justify-content-between gap-2 mt-3 px-3">
+                      <Link to="/contact" className="buy__btn w-50 text-center">Buy Now</Link>
+                      <Link to={`/bike-accessories/${item.name}`} className="details__btn w-50 text-center">View Details</Link>
                     </div>
                   </div>
                 </div>
@@ -78,3 +67,5 @@ const BikeAccessories = () => {
 };
 
 export default BikeAccessories;
+;
+

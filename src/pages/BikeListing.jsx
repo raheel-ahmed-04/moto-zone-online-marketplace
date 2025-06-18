@@ -53,7 +53,7 @@ const BikeListing = () => {
     if (!isExist) {
       const bikeToStore = {
         id: bike.id,
-        imgurl: bike.imgurl, // ✅ Corrected to match usage in wishlist
+        imgurl: bike.imgurl,
         title: bike.bikename,
         description: bike.description,
         price: bike.price,
@@ -90,20 +90,10 @@ const BikeListing = () => {
         {bikes.map((bike) => (
           <Col lg="4" md="6" sm="12" className="mb-4" key={bike.id}>
             <div className="bike__item position-relative">
-              {/* Wishlist Icon in Top-Right Corner */}
               <i
                 className="ri-heart-line wishlist-icon"
                 onClick={() => handleAddToWishlist(bike)}
                 title="Add to Wishlist"
-                style={{
-                  position: "absolute",
-                  top: "10px",
-                  right: "10px",
-                  fontSize: "1.5rem",
-                  cursor: "pointer",
-                  color: "#f94c10",
-                  zIndex: 2,
-                }}
               ></i>
 
               <img
@@ -128,12 +118,12 @@ const BikeListing = () => {
                   </span>
                 </div>
                 <div className="d-flex justify-content-between">
-                  <button className="btn buy__btn">
-                    <Link to={`/bikes/${bike.bikename}`}>Buy Now</Link>
-                  </button>
-                  <button className="btn details__btn">
-                    <Link to={`/bikes/${bike.bikename}`}>View Details</Link>
-                  </button>
+                  <Link to={`/bikes/${bike.bikename}`} className="buy__btn">
+                    Buy Now
+                  </Link>
+                  <Link to={`/bikes/${bike.bikename}`} className="details__btn">
+                    View Details
+                  </Link>
                 </div>
               </div>
             </div>
