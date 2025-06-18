@@ -1,5 +1,6 @@
+// BikeListing.jsx
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Container } from "reactstrap";
 import { supabase } from "../../lib/supabase";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
@@ -12,6 +13,8 @@ const BikeListing = () => {
   const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState("default");
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchBikes = async () => {
       try {
@@ -20,9 +23,8 @@ const BikeListing = () => {
             users:seller_id (
               name
             )
-          `);
+        `);
 
-        // Add sorting if needed
         if (sortBy === "price-low") {
           query = query.order("price", { ascending: true });
         } else if (sortBy === "price-high") {
@@ -45,6 +47,23 @@ const BikeListing = () => {
 
   const handleSort = (e) => {
     setSortBy(e.target.value);
+  };
+
+  const handleAddToWishlist = (bike) => {
+    const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const isExist = existing.some((item) => item.id === bike.id);
+    if (!isExist) {
+      const bikeToStore = {
+        id: bike.id,
+        image: bike.imgurl,
+        title: bike.bikename,
+        description: bike.description,
+        price: bike.price,
+      };
+      existing.push(bikeToStore);
+      localStorage.setItem("wishlist", JSON.stringify(existing));
+    }
+    navigate("/wishlist");
   };
 
   if (loading) return <LoadingSpinner />;
@@ -71,8 +90,6 @@ const BikeListing = () => {
       <Row>
         {bikes.map((bike) => (
           <Col lg="4" md="6" sm="12" className="mb-4" key={bike.id}>
-            {" "}
-            {/* Changed sm="6" to sm="12" */}
             <div className="bike__item">
               <img
                 src={bike.imgurl}
@@ -80,6 +97,15 @@ const BikeListing = () => {
                 className="bike__image"
               />
               <div className="bike__item-content mt-3">
+                <div className="text-end">
+                  <button
+                    className="wishlist-icon"
+                    onClick={() => handleAddToWishlist(bike)}
+                    title="Add to Wishlist"
+                  >
+                    <i className="ri-heart-line"></i>
+                  </button>
+                </div>
                 <h4 className="section__title text-center">{bike.bikename}</h4>
                 <h6 className="price text-center mt-2">${bike.price}.00</h6>
                 <div className="d-flex align-items-center justify-content-center mt-3 mb-4">

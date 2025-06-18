@@ -18,8 +18,9 @@ import BookingHistory from "../pages/BookingHistory";
 import ChatPage from "../pages/ChatPage";
 import AdminPage from "../pages/AdminPage";
 import BikeAccessories from "../pages/BikeAccessories";
-
 import SellerDashboard from "../pages/SellerDashboard";
+import Wishlist from "../pages/Wishlist";
+
 
 const Routers = () => {
   return (
@@ -44,6 +45,7 @@ const Routers = () => {
       <Route path="/admin-page" element={<AdminPage />} />
       <Route path="/seller-dashboard" element={<SellerDashboard />} />
       <Route path="/bike-accessories" element={<BikeAccessories />} />
+      <Route path="/wishlist" element={<Wishlist />} />
    
       <Route path="*" element={<NotFound />} />
     </Routes>

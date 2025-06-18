@@ -91,7 +91,7 @@ const About = () => {
                 />
                 <h5 className="mt-3">Raheel Ahmed</h5>
                 <p className="section__description">
-                  Team Lead <br></br>User Management/Authorization <br></br> Role-Based Access <br></br> and Frontend Developer
+                  Team Lead <br></br>User Management/Authorization <br></br> Role-Based Access <br></br> 
                 </p>
                 <div className="d-flex justify-content-center gap-3">
                   <a
@@ -149,7 +149,7 @@ const About = () => {
                 />
                 <h5 className="mt-3">Bilal Arshad</h5>
                 <p className="section__description">
-                  All Listing <br></br> and Frontend Developer
+                  FrontEnd Dveloper <br></br> 
                 </p>
                 <div className="d-flex justify-content-center gap-3">
                   <a
