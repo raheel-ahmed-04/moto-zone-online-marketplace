@@ -90,3 +90,13 @@
     font-size: 0.7rem;
   }
 }
+.footer-logo-img {
+  width: 100px;
+  height: auto;
+}
+
+.footer__logo .logo-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+}
