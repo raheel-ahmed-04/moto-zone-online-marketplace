@@ -21,6 +21,9 @@ import {
   FormGroup,
   Label,
   Alert,
+  Card,
+  CardBody,
+  CardHeader,
 } from "reactstrap"
 import { supabase } from "../../lib/supabase"
 import { useNavigate } from "react-router-dom"
@@ -264,6 +267,11 @@ const AdminPage = () => {
     }
   }
 
+  // Navigate to Product Listings page
+  const handleNavigateToListings = () => {
+    navigate("/admin-listings")
+  }
+
   if (!isAdmin) {
     return <div>Redirecting to home page...</div>
   }
@@ -287,6 +295,11 @@ const AdminPage = () => {
         <NavItem>
           <NavLink className={activeTab === "sellers" ? "active" : ""} onClick={() => toggle("sellers")}>
             Sellers
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink className={activeTab === "product" ? "active" : ""} onClick={() => toggle("product")}>
+            Product Listing
           </NavLink>
         </NavItem>
       </Nav>
@@ -420,6 +433,141 @@ const AdminPage = () => {
               </tbody>
             </Table>
           )}
+        </TabPane>
+
+        {/* Product Listing Tab */}
+        <TabPane tabId="product">
+          <Row className="mb-4">
+            <Col>
+              <h3>Product Listings Management</h3>
+              <p className="text-muted">Manage all product listings across cars, bikes, and accessories</p>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md="6" className="mb-3">
+              <Card className="h-100">
+                <CardHeader className="bg-primary text-white">
+                  <h5 className="mb-0">🚗 Cars & Bikes</h5>
+                </CardHeader>
+                <CardBody>
+                  <p>Manage all car and bike listings with full CRUD operations.</p>
+                  <ul className="list-unstyled">
+                    <li>✅ View all listings</li>
+                    <li>✅ Add new listings</li>
+                    <li>✅ Edit existing listings</li>
+                    <li>✅ Delete listings</li>
+                    <li>✅ Search & filter</li>
+                  </ul>
+                  <Button color="primary" onClick={handleNavigateToListings} className="mt-2">
+                    Manage Vehicle Listings
+                  </Button>
+                </CardBody>
+              </Card>
+            </Col>
+
+            <Col md="6" className="mb-3">
+              <Card className="h-100">
+                <CardHeader className="bg-success text-white">
+                  <h5 className="mb-0">🛠️ Accessories</h5>
+                </CardHeader>
+                <CardBody>
+                  <p>Manage all bike and car accessories with comprehensive controls.</p>
+                  <ul className="list-unstyled">
+                    <li>✅ Bike accessories</li>
+                    <li>✅ Car accessories</li>
+                    <li>✅ Category management</li>
+                    <li>✅ Condition tracking</li>
+                    <li>✅ Status management</li>
+                  </ul>
+                  <Button color="success" onClick={handleNavigateToListings} className="mt-2">
+                    Manage Accessories
+                  </Button>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row className="mt-4">
+            <Col>
+              <Card>
+                <CardHeader>
+                  <h5 className="mb-0">Quick Actions</h5>
+                </CardHeader>
+                <CardBody>
+                  <Row>
+                    <Col md="3" className="mb-2">
+                      <Button
+                        color="outline-primary"
+                        block
+                        onClick={() => navigate("/admin-listings?tab=cars")}
+                        className="text-start"
+                      >
+                        <div>
+                          <strong>🚗 Cars</strong>
+                          <br />
+                          <small>Manage car listings</small>
+                        </div>
+                      </Button>
+                    </Col>
+                    <Col md="3" className="mb-2">
+                      <Button
+                        color="outline-info"
+                        block
+                        onClick={() => navigate("/admin-listings?tab=bikes")}
+                        className="text-start"
+                      >
+                        <div>
+                          <strong>🏍️ Bikes</strong>
+                          <br />
+                          <small>Manage bike listings</small>
+                        </div>
+                      </Button>
+                    </Col>
+                    <Col md="3" className="mb-2">
+                      <Button
+                        color="outline-success"
+                        block
+                        onClick={() => navigate("/admin-listings?tab=bikeaccessories")}
+                        className="text-start"
+                      >
+                        <div>
+                          <strong>🔧 Bike Parts</strong>
+                          <br />
+                          <small>Bike accessories</small>
+                        </div>
+                      </Button>
+                    </Col>
+                    <Col md="3" className="mb-2">
+                      <Button
+                        color="outline-warning"
+                        block
+                        onClick={() => navigate("/admin-listings?tab=caraccessories")}
+                        className="text-start"
+                      >
+                        <div>
+                          <strong>🛠️ Car Parts</strong>
+                          <br />
+                          <small>Car accessories</small>
+                        </div>
+                      </Button>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+
+          <Row className="mt-4">
+            <Col>
+              <Alert color="info">
+                <h6 className="alert-heading">💡 Pro Tip</h6>
+                Click on any of the buttons above to navigate directly to the specific product category in the listings
+                management page. You can also use the main "Manage Vehicle Listings" or "Manage Accessories" buttons to
+                access the full listings dashboard.
+              </Alert>
+            </Col>
+          </Row>
         </TabPane>
       </TabContent>
 

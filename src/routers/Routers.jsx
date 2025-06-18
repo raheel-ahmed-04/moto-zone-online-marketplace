@@ -16,6 +16,7 @@ import ManageBikes from "../pages/ManageBikes"
 import BookingHistory from "../pages/BookingHistory"
 import ChatPage from "../pages/ChatPage"
 import AdminPage from "../pages/AdminPage"
+import AdminListingsPage from "../pages/AdminListingsPage"
 import BikeAccessories from "../pages/BikeAccessories"
 import SellerDashboard from "../pages/SellerDashboard"
 import Wishlist from "../pages/Wishlist"
@@ -130,6 +131,15 @@ const Routers = () => {
         element={
           <SimpleProtectedRoute>
             <AdminPage />
+          </SimpleProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin-listings"
+        element={
+          <SimpleProtectedRoute>
+            <AdminListingsPage />
           </SimpleProtectedRoute>
         }
       />
