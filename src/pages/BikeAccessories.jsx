@@ -3,7 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
-import bikeAccessoriesData from "../assets/data/bikeAccessoriesData";
+import { supabase } from "../../lib/supabase";
 import "../styles/BikeAccessories.css";
 
 const BikeAccessories = () => {
@@ -11,6 +11,26 @@ const BikeAccessories = () => {
   const [wishlist, setWishlist] = useState(
     JSON.parse(localStorage.getItem("wishlist")) || []
   );
+  const [bikeAccessories, setBikeAccessories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAccessories = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("bikeaccessories")
+          .select("*");
+        if (error) throw error;
+        setBikeAccessories(data || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAccessories();
+  }, []);
 
   useEffect(() => {
     setWishlist(JSON.parse(localStorage.getItem("wishlist")) || []);
@@ -25,7 +45,7 @@ const BikeAccessories = () => {
     if (!isExist) {
       const itemToStore = {
         id: item.id,
-        imgurl: item.imgUrl,
+        imgurl: item.imgurl,
         name: item.name,
         description: item.description,
         price: item.price,
@@ -42,13 +62,16 @@ const BikeAccessories = () => {
     localStorage.setItem("wishlist", JSON.stringify(updated));
   };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <Helmet title="Bike Accessories">
       <CommonSection title="Bike Accessories" />
       <section className="accessories">
         <Container>
           <Row>
-            {bikeAccessoriesData.map((item) => {
+            {bikeAccessories.map((item) => {
               const isInWishlist = wishlist.find(
                 (i) => i.id === item.id && i.type === "bikeaccessory"
               );
@@ -68,7 +91,7 @@ const BikeAccessories = () => {
                       style={{ color: "#f9a826", cursor: "pointer" }}
                     ></i>
                     <img
-                      src={item.imgUrl}
+                      src={item.imgurl}
                       alt={item.name}
                       className="accessory__image"
                     />

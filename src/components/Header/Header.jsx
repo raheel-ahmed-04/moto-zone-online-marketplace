@@ -10,10 +10,10 @@ const navLinks = [
   { path: "/cars", display: "Cars" },
   { path: "/bikes", display: "Bikes" },
   { path: "/bike-accessories", display: "Bike Accessories" },
+  { path: "/car-accessories", display: "Car Accessories" },
+  { path: "/wishlist", display: "Wishlist" },
   { path: "/blogs", display: "Blog" },
   { path: "/contact", display: "Contact" },
-   { path: "/car-accessories", display: "Car Accessories" },
-  { path: "/wishlist", display: "Wishlist" },
 
 ];
 
@@ -148,14 +148,14 @@ const Header = () => {
               </div>
             </div>
 
-            {role === "buyer" && (
+            {/* {role === "buyer" && (
               <div className="search__box">
                 <input type="text" placeholder="Search" />
                 <span>
                   <i className="ri-search-line"></i>
                 </span>
               </div>
-            )}
+            )} */}
           </div>
         </Container>
       </div>
