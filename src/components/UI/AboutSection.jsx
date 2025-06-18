@@ -18,9 +18,9 @@ const AboutSection = ({ aboutClass }) => {
           <Col lg="6" md="6">
             <div className="about__section-content">
               <h4 className="section__subtitle">About Us</h4>
-              <h2 className="section__title">Welcome to car rent service</h2>
+              <h2 className="section__title">Welcome to MotoZone MarketPlace</h2>
               <p className="section__description">
-              "Welcome to Moto Zone, where elegance meets engineering excellence. Immerse yourself in a world of automotive artistry, where each vehicle tells a story of innovation and craftsmanship. Discover the perfect fusion of performance and style, designed to elevate your driving experience. At Moto Zone, we don't just sell cars; we offer a gateway to unparalleled luxury and adventure. Embrace the journey, and let your dreams drive you forward."
+              "Welcome to Moto Zone, where elegance meets engineering excellence. Immerse yourself in a world of automotive artistry, where each vehicle tells a story of innovation and craftsmanship. Discover the perfect fusion of performance and style, designed to elevate your driving experience. At Moto Zone, we don't just make selling and buying cars easy; we offer a gateway to unparalleled luxury and adventure. Embrace the journey, and let your dreams drive you forward."
               </p>
 
               <div className="about__section-item d-flex align-items-center">
@@ -30,7 +30,7 @@ const AboutSection = ({ aboutClass }) => {
                 </p>
 
                 <p className="section__description d-flex align-items-center gap-2">
-                  <i class="ri-checkbox-circle-line"></i> Experience the thrill of driving with our exclusive collection of luxury cars.
+                  <i class="ri-checkbox-circle-line"></i> Experience the thrill of driving with our exclusive collection of luxury cars by different sellers.
                 </p>
               </div>
 

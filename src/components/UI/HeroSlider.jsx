@@ -21,12 +21,14 @@ const HeroSlider = () => {
     <Slider {...settings} className="hero__slider">
       <div className="slider__item slider__item-01 mt0">
         <Container>
-          <div className="slider__content ">
-            <h4 className="text-light mb-3">Moto-Zone Best Services</h4>
-            <h1 className="text-light mb-4">Reserve Now and Get 15% Off</h1>
+          <div className="slider__content">
+            <h4 className="text-light mb-3">Your Trusted Auto Marketplace</h4>
+            <h1 className="text-light mb-4">
+              Buy & Sell Cars, Bikes & Accessories Easily
+            </h1>
 
             <button className="btn reserve__btn mt-4">
-              <Link to="/cars">Reserve Now</Link>
+              <Link to="/cars">Explore Listings</Link>
             </button>
           </div>
         </Container>
@@ -34,12 +36,14 @@ const HeroSlider = () => {
 
       <div className="slider__item slider__item-02 mt0">
         <Container>
-          <div className="slider__content ">
-            <h4 className="text-light mb-3">Enjoy Your Best Ride</h4>
-            <h1 className="text-light mb-4">Reserve Now and Get 15% Off</h1>
+          <div className="slider__content">
+            <h4 className="text-light mb-3">For Sellers & Dealers</h4>
+            <h1 className="text-light mb-4">
+              List Your Vehicles and Reach More Buyers
+            </h1>
 
             <button className="btn reserve__btn mt-4">
-              <Link to="/cars">Reserve Now</Link>
+              <Link to="/seller-dashboard">Start Selling</Link>
             </button>
           </div>
         </Container>
@@ -47,12 +51,14 @@ const HeroSlider = () => {
 
       <div className="slider__item slider__item-03 mt0">
         <Container>
-          <div className="slider__content ">
-            <h4 className="text-light mb-3">Enjoy Your Ride</h4>
-            <h1 className="text-light mb-4">Reserve Now and Get 15% Off</h1>
+          <div className="slider__content">
+            <h4 className="text-light mb-3">Accessories at Your Fingertips</h4>
+            <h1 className="text-light mb-4">
+              Find the Best Deals on Auto Parts & Gear
+            </h1>
 
             <button className="btn reserve__btn mt-4">
-              <Link to="/cars">Reserve Now</Link>
+              <Link to="/bike-accessories">Shop Accessories</Link>
             </button>
           </div>
         </Container>

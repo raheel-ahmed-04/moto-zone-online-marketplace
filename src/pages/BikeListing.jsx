@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Container } from "reactstrap";
 import { supabase } from "../../lib/supabase";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
+import CommonSection from "../components/UI/CommonSection";
 import "../styles/BikeListing.css";
 import "../styles/error-message.css";
 
@@ -70,6 +71,8 @@ const BikeListing = () => {
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
+    <>
+    <CommonSection title="Bike Listing" />
     <Container>
       <div className="d-flex justify-content-end mb-4">
         <select
@@ -95,14 +98,14 @@ const BikeListing = () => {
                 src={bike.imgurl}
                 alt={bike.bikename}
                 className="bike__image"
-              />
+                />
               <div className="bike__item-content mt-3">
                 <div className="text-end">
                   <button
                     className="wishlist-icon"
                     onClick={() => handleAddToWishlist(bike)}
                     title="Add to Wishlist"
-                  >
+                    >
                     <i className="ri-heart-line"></i>
                   </button>
                 </div>
@@ -133,6 +136,7 @@ const BikeListing = () => {
         ))}
       </Row>
     </Container>
+    </>
   );
 };
 
