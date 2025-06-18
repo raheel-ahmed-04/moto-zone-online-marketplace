@@ -2,17 +2,13 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import Home from "../pages/Home"
 import About from "../pages/About"
 import CarListing from "../pages/CarListing"
-import CarDetails from "../pages/CarDetails"
-import ManageCars from "../pages/ManageCars"
 import BikeListing from "../pages/BikeListing"
-import BikeDetails from "../pages/BikeDetails"
 import Blog from "../pages/Blog"
 import BlogDetails from "../pages/BlogDetails"
 import NotFound from "../pages/NotFound"
 import Contact from "../pages/Contact"
 import Login from "../pages/login"
 import Register from "../pages/Register-page"
-import ManageBikes from "../pages/ManageBikes"
 import BookingHistory from "../pages/BookingHistory"
 import ChatPage from "../pages/ChatPage"
 import AdminPage from "../pages/AdminPage"
@@ -20,7 +16,9 @@ import AdminListingsPage from "../pages/AdminListingsPage"
 import BikeAccessories from "../pages/BikeAccessories"
 import SellerDashboard from "../pages/SellerDashboard"
 import Wishlist from "../pages/Wishlist"
+import ProductDetails from "../pages/ProductDetails";
 import SimpleProtectedRoute from "../components/SimpleProtectedRoute"
+import CarAccessories from "../pages/CarAccessories"
 
 const Routers = () => {
   return (
@@ -34,17 +32,9 @@ const Routers = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="/blogs" element={<Blog />} />
       <Route path="/blogs/:slug" element={<BlogDetails />} />
+      <Route path="/home"  element={<Home /> } />
 
       {/* Protected routes - require authentication and block check */}
-      <Route
-        path="/home"
-        element={
-          <SimpleProtectedRoute>
-            <Home />
-          </SimpleProtectedRoute>
-        }
-      />
-
       <Route
         path="/cars"
         element={
@@ -54,14 +44,6 @@ const Routers = () => {
         }
       />
 
-      <Route
-        path="/cars/:slug"
-        element={
-          <SimpleProtectedRoute>
-            <CarDetails />
-          </SimpleProtectedRoute>
-        }
-      />
 
       <Route
         path="/bikes"
@@ -73,46 +55,10 @@ const Routers = () => {
       />
 
       <Route
-        path="/bikes/:slug"
-        element={
-          <SimpleProtectedRoute>
-            <BikeDetails />
-          </SimpleProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/manage-cars"
-        element={
-          <SimpleProtectedRoute>
-            <ManageCars />
-          </SimpleProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/manage-bikes"
-        element={
-          <SimpleProtectedRoute>
-            <ManageBikes />
-          </SimpleProtectedRoute>
-        }
-      />
-
-      <Route
         path="/bookings-history"
         element={
           <SimpleProtectedRoute>
             <BookingHistory />
-          </SimpleProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/admin"
-        element={
-          <SimpleProtectedRoute>
-            <ManageCars />
           </SimpleProtectedRoute>
         }
       />
@@ -163,12 +109,49 @@ const Routers = () => {
       />
 
       <Route
+        path="/car-accessories"
+        element={
+          <SimpleProtectedRoute>
+            <CarAccessories />
+          </SimpleProtectedRoute>
+        }
+      />
+
+      <Route
         path="/wishlist"
         element={
           <SimpleProtectedRoute>
             <Wishlist />
           </SimpleProtectedRoute>
         }
+      />
+
+      <Route path="/cars/:slug" element={
+          <SimpleProtectedRoute>
+            <ProductDetails type="car" />
+          </SimpleProtectedRoute>
+        } 
+      />
+
+      <Route path="/bikes/:slug" element={
+          <SimpleProtectedRoute>
+            <ProductDetails type="bike" />
+          </SimpleProtectedRoute>
+        } 
+      />
+
+      <Route path="/bike-accessories/:slug" element={
+          <SimpleProtectedRoute>
+            <ProductDetails type="bikeaccessory" />
+          </SimpleProtectedRoute>
+        } 
+      />
+
+      <Route path="/car-accessories/:slug" element={
+          <SimpleProtectedRoute>
+            <ProductDetails type="caraccessory" />
+          </SimpleProtectedRoute>
+        } 
       />
 
       <Route path="*" element={<NotFound />} />
