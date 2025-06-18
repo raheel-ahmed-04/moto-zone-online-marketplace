@@ -118,4 +118,3 @@ const BikeDetails = () => {
 };
 
 export default BikeDetails;
-

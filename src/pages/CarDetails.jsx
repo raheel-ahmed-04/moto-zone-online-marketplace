@@ -1,3 +1,4 @@
+// CarDetails.jsx
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
@@ -13,6 +14,9 @@ const CarDetails = () => {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist")) || []
+  );
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -43,6 +47,29 @@ const CarDetails = () => {
     fetchCar();
     window.scrollTo(0, 0);
   }, [slug]);
+
+  const toggleWishlist = () => {
+    let updatedWishlist;
+    if (wishlist.find((item) => item.id === car.id && item.type === "car")) {
+      updatedWishlist = wishlist.filter(
+        (item) => !(item.id === car.id && item.type === "car")
+      );
+    } else {
+      updatedWishlist = [
+        ...wishlist,
+        {
+          id: car.id,
+          imgurl: car.imgurl,
+          name: car.carname,
+          price: car.price,
+          type: "car",
+        },
+      ];
+    }
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+  };
+
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="error-message">Error: {error}</div>;
   if (!car) return <h2>Car not found!</h2>;
@@ -58,7 +85,20 @@ const CarDetails = () => {
 
             <Col lg="6">
               <div className="car__info">
-                <h2 className="section__title">{car.carname}</h2>
+                <h2 className="section__title d-flex align-items-center justify-content-between">
+                  {car.carname}
+                  <i
+                    className={`ri-heart-${
+                      wishlist.find(
+                        (item) => item.id === car.id && item.type === "car"
+                      )
+                        ? "fill"
+                        : "line"
+                    }`}
+                    style={{ cursor: "pointer", color: "#f9a826" }}
+                    onClick={toggleWishlist}
+                  ></i>
+                </h2>
 
                 <div className="d-flex align-items-center gap-5 mb-4 mt-3">
                   <h6 className="price fw-bold fs-4">${car.price}.00</h6>
@@ -81,26 +121,16 @@ const CarDetails = () => {
                   className="d-flex align-items-center mt-3"
                   style={{ columnGap: "4rem" }}
                 >
-                  {" "}
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-roadster-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-roadster-line" style={{ color: "#f9a826" }}></i>
                     {car.model}
                   </span>
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-settings-2-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-settings-2-line" style={{ color: "#f9a826" }}></i>
                     {car.automatic}
                   </span>
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-timer-flash-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-timer-flash-line" style={{ color: "#f9a826" }}></i>
                     {car.speed}
                   </span>
                 </div>
@@ -109,26 +139,16 @@ const CarDetails = () => {
                   className="d-flex align-items-center mt-3"
                   style={{ columnGap: "2.8rem" }}
                 >
-                  {" "}
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-map-pin-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-map-pin-line" style={{ color: "#f9a826" }}></i>
                     {car.gps}
                   </span>
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-wheelchair-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-wheelchair-line" style={{ color: "#f9a826" }}></i>
                     {car.seatType}
-                  </span>{" "}
+                  </span>
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-building-2-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-building-2-line" style={{ color: "#f9a826" }}></i>
                     {car.brand}
                   </span>
                 </div>
@@ -138,18 +158,12 @@ const CarDetails = () => {
                   style={{ columnGap: "2.8rem" }}
                 >
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-user-3-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-user-3-line" style={{ color: "#f9a826" }}></i>
                     Seller: {car.users?.name || "Unknown"}
                   </span>
 
                   <span className="d-flex align-items-center gap-1 section__description">
-                    <i
-                      className="ri-mail-line"
-                      style={{ color: "#f9a826" }}
-                    ></i>{" "}
+                    <i className="ri-mail-line" style={{ color: "#f9a826" }}></i>
                     {car.users?.email || "N/A"}
                   </span>
                 </div>
