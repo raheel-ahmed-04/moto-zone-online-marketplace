@@ -91,16 +91,5 @@
     font-size: 0.8rem;
   }
 }
-.wishlist-icon {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 1.5rem;
-  color: #f9a826;
-  cursor: pointer;
-  z-index: 2;
-}
 
-.wishlist-icon:hover {
-  color: #ff0000;
-}
+

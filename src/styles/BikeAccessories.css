@@ -54,3 +54,10 @@ a {
   color: white;
   text-decoration: none;
 }
+.wishlist-icon {
+  transition: color 0.3s ease;
+}
+
+.wishlist-icon:hover {
+  color: #ff0000;
+}

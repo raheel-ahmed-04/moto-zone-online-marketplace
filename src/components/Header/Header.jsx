@@ -12,6 +12,8 @@ const navLinks = [
   { path: "/bike-accessories", display: "Bike Accessories" },
   { path: "/blogs", display: "Blog" },
   { path: "/contact", display: "Contact" },
+  { path: "/wishlist", display: "Wishlist" },
+
 ];
 
 const Header = () => {

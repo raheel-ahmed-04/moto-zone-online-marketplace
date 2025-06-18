@@ -22,7 +22,7 @@ const CarListing = () => {
             users:seller_id (
               name
             )
-          `);
+        `);
 
         if (sortOrder === "low") {
           query = query.order("price", { ascending: true });
@@ -31,7 +31,6 @@ const CarListing = () => {
         }
 
         const { data, error: supabaseError } = await query;
-
         if (supabaseError) throw supabaseError;
         setCars(data);
       } catch (err) {
@@ -52,13 +51,31 @@ const CarListing = () => {
     setSortOrder(e.target.value);
   };
 
+  const handleAddToWishlist = (car) => {
+    const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const isExist = existing.some((item) => item.id === car.id);
+    if (!isExist) {
+      const carToStore = {
+        id: car.id,
+        imgurl: car.imgurl,
+        name: car.carname,
+        description: car.description,
+        price: car.price,
+        type: "car",
+        slug: car.carname, // optional for View Details routing
+      };
+      existing.push(carToStore);
+      localStorage.setItem("wishlist", JSON.stringify(existing));
+    }
+    navigate("/wishlist");
+  };
+
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
     <Helmet title="Cars">
       <CommonSection title="Car Listing" />
-
       <section>
         <Container>
           <Row>
@@ -66,7 +83,7 @@ const CarListing = () => {
               <div className="d-flex align-items-center gap-3 mb-5">
                 <span className="d-flex align-items-center gap-2">
                   <i className="ri-sort-asc"></i> Sort By
-                </span>{" "}
+                </span>
                 <select value={sortOrder} onChange={handleSort}>
                   <option value="select">Select</option>
                   <option value="low">Price: Low to High</option>
@@ -77,7 +94,7 @@ const CarListing = () => {
             </Col>
 
             {cars.map((item) => (
-              <CarItem item={item} key={item.id} />
+              <CarItem key={item.id} item={item} onAddToWishlist={handleAddToWishlist} />
             ))}
           </Row>
         </Container>
