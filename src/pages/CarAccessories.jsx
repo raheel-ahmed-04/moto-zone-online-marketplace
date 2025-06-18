@@ -11,6 +11,9 @@ const CarAccessories = () => {
   const [carAccessories, setCarAccessories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist")) || []
+  );
   useEffect(() => {
     const fetchAccessories = async () => {
       try {
@@ -28,11 +31,16 @@ const CarAccessories = () => {
     fetchAccessories();
   }, []);
 
-  const handleAddToWishlist = (item) => {
+  useEffect(() => {
+    setWishlist(JSON.parse(localStorage.getItem("wishlist")) || []);
+  }, [carAccessories]);
+
+  const handleWishlistClick = (item) => {
     const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
     const isExist = existing.some(
       (i) => i.id === item.id && i.type === "caraccessory"
     );
+    let updated;
     if (!isExist) {
       const itemToStore = {
         id: item.id,
@@ -43,10 +51,14 @@ const CarAccessories = () => {
         type: "caraccessory",
         slug: item.name,
       };
-      existing.push(itemToStore);
-      localStorage.setItem("wishlist", JSON.stringify(existing));
+      updated = [...existing, itemToStore];
+    } else {
+      updated = existing.filter(
+        (i) => !(i.id === item.id && i.type === "caraccessory")
+      );
     }
-    navigate("/wishlist");
+    setWishlist(updated);
+    localStorage.setItem("wishlist", JSON.stringify(updated));
   };
 
   if (loading) return <div>Loading...</div>;
@@ -58,40 +70,55 @@ const CarAccessories = () => {
       <section className="accessories">
         <Container>
           <Row>
-            {carAccessories.map((item) => (
-              <Col lg="4" md="6" sm="12" key={item.id} className="mb-4">
-                <div className="accessory__item position-relative">
-                  <i
-                    className="ri-heart-line wishlist-icon"
-                    onClick={() => handleAddToWishlist(item)}
-                    title="Add to Wishlist"
-                  ></i>
-                  <img
-                    src={item.imgurl}
-                    alt={item.name}
-                    className="accessory__image"
-                  />
-                  <div className="accessory__content mt-3">
-                    <h4 className="text-center">{item.name}</h4>
-                    <h6 className="price text-center">${item.price}.00</h6>
-                    <p className="description text-center">
-                      {item.description}
-                    </p>
-                    <div className="d-flex justify-content-between gap-2 mt-3 px-3">
-                      <Link to="/contact" className="buy__btn w-50 text-center">
-                        Buy Now
-                      </Link>
-                      <Link
-                        to={`/car-accessories/${item.name}`}
-                        className="details__btn w-50 text-center"
-                      >
-                        View Details
-                      </Link>
+            {carAccessories.map((item) => {
+              const isInWishlist = wishlist.find(
+                (i) => i.id === item.id && i.type === "caraccessory"
+              );
+              return (
+                <Col lg="4" md="6" sm="12" key={item.id} className="mb-4">
+                  <div className="accessory__item position-relative">
+                    <i
+                      className={`ri-heart-${
+                        isInWishlist ? "fill" : "line"
+                      } wishlist-icon`}
+                      onClick={() => handleWishlistClick(item)}
+                      title={
+                        isInWishlist
+                          ? "Remove from Wishlist"
+                          : "Add to Wishlist"
+                      }
+                      style={{ color: "#f9a826", cursor: "pointer" }}
+                    ></i>
+                    <img
+                      src={item.imgurl}
+                      alt={item.name}
+                      className="accessory__image"
+                    />
+                    <div className="accessory__content mt-3">
+                      <h4 className="text-center">{item.name}</h4>
+                      <h6 className="price text-center">${item.price}.00</h6>
+                      <p className="description text-center">
+                        {item.description}
+                      </p>
+                      <div className="d-flex justify-content-between gap-2 mt-3 px-3">
+                        <Link
+                          to="/contact"
+                          className="buy__btn w-50 text-center"
+                        >
+                          Buy Now
+                        </Link>
+                        <Link
+                          to={`/car-accessories/${item.name}`}
+                          className="details__btn w-50 text-center"
+                        >
+                          View Details
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Col>
-            ))}
+                </Col>
+              );
+            })}
           </Row>
         </Container>
       </section>
