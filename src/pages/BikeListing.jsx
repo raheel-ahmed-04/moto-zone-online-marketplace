@@ -15,7 +15,6 @@ const BikeListing = () => {
   const [wishlist, setWishlist] = useState(
     JSON.parse(localStorage.getItem("wishlist")) || []
   );
-  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
@@ -81,13 +80,6 @@ const BikeListing = () => {
     localStorage.setItem("wishlist", JSON.stringify(updated));
   };
 
-  const filteredBikes = bikes.filter(
-    (bike) =>
-      bike.bikename?.toLowerCase().includes(search.toLowerCase()) ||
-      bike.brand?.toLowerCase().includes(search.toLowerCase()) ||
-      bike.model?.toLowerCase().includes(search.toLowerCase())
-  );
-
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="error-message">Error: {error}</div>;
 
@@ -95,125 +87,89 @@ const BikeListing = () => {
     <>
       <CommonSection title="Bike Listing" />
       <Container>
-        <Row className="mb-3 justify-content-end align-items-center">
-          <Col md="auto" className="d-flex align-items-center gap-2">
-            <div style={{ position: "relative", width: 300 }}>
-              <input
-                type="text"
-                className="form-control ps-4 pe-2"
-                style={{ width: 250, display: "inline-block" }}
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <span
-                style={{
-                  position: "absolute",
-                  left: 8,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#888",
-                  pointerEvents: "none",
-                  fontSize: 18,
-                }}
-              >
-                <i className="ri-search-line"></i>
-              </span>
-            </div>
-            <select
-              className="form-select"
-              style={{ width: 150 }}
-              value={sortBy}
-              onChange={handleSort}
-            >
-              <option value="default">Sort By</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-            </select>
-          </Col>
-        </Row>
+        <div className="d-flex justify-content-end mb-4">
+          <select
+            className="form-select w-auto"
+            value={sortBy}
+            onChange={handleSort}
+            style={{
+              borderColor: "#000d6b",
+              color: "#000d6b",
+              cursor: "pointer",
+            }}
+          >
+            <option value="default">Sort By</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+          </select>
+        </div>
         <Row>
-          {loading ? (
-            <LoadingSpinner />
-          ) : error ? (
-            <div className="error-message">Error: {error}</div>
-          ) : filteredBikes.length === 0 ? (
-            <div className="error-message">No bikes found.</div>
-          ) : (
-            filteredBikes.map((bike) => {
-              const isInWishlist = wishlist.find(
-                (item) => item.id === bike.id && item.type === "bike"
-              );
-              return (
-                <Col
-                  lg="4"
-                  md="6"
-                  sm="12"
-                  className="mb-4"
-                  key={bike.id + (localStorage.getItem("wishlist") || "")}
-                >
-                  <div className="bike__item position-relative">
-                    <i
-                      className={`ri-heart-${
-                        isInWishlist ? "fill" : "line"
-                      } wishlist-icon`}
-                      onClick={() => handleWishlistClick(bike)}
-                      title={
-                        isInWishlist
-                          ? "Remove from Wishlist"
-                          : "Add to Wishlist"
-                      }
-                      style={{ color: "#f9a826", cursor: "pointer" }}
-                    ></i>
-                    <img
-                      src={bike.imgurl}
-                      alt={bike.bikename}
-                      className="bike__image w-100"
-                      style={{
-                        borderRadius: "10px",
-                        objectFit: "cover",
-                        height: "200px",
-                      }}
-                    />
-                    <div className="bike__item-content mt-3">
-                      <h4 className="section__title text-center">
-                        {bike.bikename}
-                      </h4>
-                      <h6 className="price text-center mt-2">
-                        ${bike.price}.00
-                      </h6>
-                      <div className="d-flex align-items-center justify-content-center mt-3 mb-4">
-                        <span className="d-flex align-items-center me-3">
-                          <i className="ri-roadster-line"></i> {bike.model}
-                        </span>
-                        <span className="d-flex align-items-center me-3">
-                          <i className="ri-settings-2-line"></i> {bike.type}
-                        </span>
-                        <span className="d-flex align-items-center">
-                          <i className="ri-dashboard-line"></i> {bike.mileage}{" "}
-                          kmpl
-                        </span>
-                      </div>
-                      <div className="d-flex justify-content-between">
-                        <Link
-                          to={`/bikes/${bike.bikename}`}
-                          className="buy__btn"
-                        >
-                          Buy Now
-                        </Link>
-                        <Link
-                          to={`/bikes/${bike.bikename}`}
-                          className="details__btn"
-                        >
-                          View Details
-                        </Link>
-                      </div>
+          {bikes.map((bike) => {
+            const isInWishlist = wishlist.find(
+              (item) => item.id === bike.id && item.type === "bike"
+            );
+            return (
+              <Col
+                lg="4"
+                md="6"
+                sm="12"
+                className="mb-4"
+                key={bike.id + (localStorage.getItem("wishlist") || "")}
+              >
+                <div className="bike__item position-relative">
+                  <i
+                    className={`ri-heart-${
+                      isInWishlist ? "fill" : "line"
+                    } wishlist-icon`}
+                    onClick={() => handleWishlistClick(bike)}
+                    title={
+                      isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"
+                    }
+                    style={{ color: "#f9a826", cursor: "pointer" }}
+                  ></i>
+                  <img
+                    src={bike.imgurl}
+                    alt={bike.bikename}
+                    className="bike__image w-100"
+                    style={{
+                      borderRadius: "10px",
+                      objectFit: "cover",
+                      height: "200px",
+                    }}
+                  />
+                  <div className="bike__item-content mt-3">
+                    <h4 className="section__title text-center">
+                      {bike.bikename}
+                    </h4>
+                    <h6 className="price text-center mt-2">${bike.price}.00</h6>
+                    <div className="d-flex align-items-center justify-content-center mt-3 mb-4">
+                      <span className="d-flex align-items-center me-3">
+                        <i className="ri-roadster-line"></i> {bike.model}
+                      </span>
+                      <span className="d-flex align-items-center me-3">
+                        <i className="ri-settings-2-line"></i> {bike.type}
+                      </span>
+                      <span className="d-flex align-items-center">
+                        <i className="ri-dashboard-line"></i> {bike.mileage}{" "}
+                        kmpl
+                      </span>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                      <Link to={`/bikes/${bike.bikename}`} className="buy__btn">
+                        Buy Now
+                      </Link>
+                      <Link
+                        to={`/bikes/${bike.bikename}`}
+                        className="details__btn"
+                      >
+                        View Details
+                      </Link>
                     </div>
                   </div>
-                </Col>
-              );
-            })
-          )}
+                </div>
+              </Col>
+            );
+          })}
         </Row>
       </Container>
     </>

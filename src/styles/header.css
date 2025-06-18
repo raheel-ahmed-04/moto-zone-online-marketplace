@@ -182,8 +182,6 @@
 
 .nav__active {
   color: #ffc107; /* Amber */
-  border-bottom: 2px solid #ffc107;
-  padding-bottom: 4px;
 }
 
 /* Mobile styles */

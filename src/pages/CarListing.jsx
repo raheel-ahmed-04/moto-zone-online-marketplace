@@ -16,7 +16,6 @@ const CarListing = () => {
   const [wishlist, setWishlist] = useState(
     JSON.parse(localStorage.getItem("wishlist")) || []
   );
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -81,66 +80,28 @@ const CarListing = () => {
     setWishlist(JSON.parse(localStorage.getItem("wishlist")) || []);
   }, [cars]);
 
-  const filteredCars = cars.filter(
-    (car) =>
-      car.carname?.toLowerCase().includes(search.toLowerCase()) ||
-      car.brand?.toLowerCase().includes(search.toLowerCase()) ||
-      car.model?.toLowerCase().includes(search.toLowerCase())
-  );
-
   if (loading) return <LoadingSpinner />;
   if (error) return <div className="error-message">Error: {error}</div>;
 
   return (
-    <Helmet title="Car Listing">
+    <Helmet title="Cars">
       <CommonSection title="Car Listing" />
-      <Container>
-        <Row className="mb-3 justify-content-end align-items-center">
-          <Col md="auto" className="d-flex align-items-center gap-2">
-            <div style={{ position: "relative", width: 300 }}>
-              <input
-                type="text"
-                className="form-control ps-4 pe-2"
-                style={{ width: 250, display: "inline-block" }}
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-              <span
-                style={{
-                  position: "absolute",
-                  left: 8,
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  color: "#888",
-                  pointerEvents: "none",
-                  fontSize: 18,
-                }}
-              >
-                <i className="ri-search-line"></i>
-              </span>
-            </div>
-            <select
-              className="form-select"
-              style={{ width: 150 }}
-              value={sortOrder}
-              onChange={handleSort}
-            >
-              <option value="select">Sort By</option>
-              <option value="low">Price: Low to High</option>
-              <option value="high">Price: High to Low</option>
-            </select>
-          </Col>
-        </Row>
-        <Row>
-          {loading ? (
-            <LoadingSpinner />
-          ) : error ? (
-            <div className="error-message">Error: {error}</div>
-          ) : filteredCars.length === 0 ? (
-            <div className="error-message">No cars found.</div>
-          ) : (
-            filteredCars.map((item) => {
+      <section>
+        <Container>
+          <Row>
+            <Col lg="12">
+              <div className="d-flex align-items-center gap-3 mb-5">
+                <span className="d-flex align-items-center gap-2">
+                  <i className="ri-sort-asc"></i> Sort By
+                </span>
+                <select value={sortOrder} onChange={handleSort}>
+                  <option value="select">Select</option>
+                  <option value="low">Price: Low to High</option>
+                  <option value="high">Price: High to Low</option>
+                </select>
+              </div>
+            </Col>
+            {cars.map((item) => {
               const isInWishlist = wishlist.find(
                 (wishlistItem) =>
                   wishlistItem.id === item.id && wishlistItem.type === "car"
@@ -172,11 +133,6 @@ const CarListing = () => {
                         src={item.imgurl}
                         alt={item.carname}
                         className="w-100"
-                        style={{
-                          borderRadius: "10px",
-                          objectFit: "cover",
-                          height: "200px",
-                        }}
                       />
                     </div>
                     <div className="car__item-content mt-4">
@@ -219,10 +175,10 @@ const CarListing = () => {
                   </div>
                 </Col>
               );
-            })
-          )}
-        </Row>
-      </Container>
+            })}
+          </Row>
+        </Container>
+      </section>
     </Helmet>
   );
 };

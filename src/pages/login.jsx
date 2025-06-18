@@ -167,14 +167,9 @@ const Login = () => {
       sessionStorage.setItem("userId", user.id)
       setShowToast(true)
       setTimeout(() => {
-        setShowToast(false);
-        if(user.role === "buyer") {
-          navigate("/home");
-        }
-        if(user.role === "seller") {
-          navigate("/seller-dashboard");
-        }
-      }, 3000);
+        setShowToast(false)
+        navigate("/home")
+      }, 3000)
     } catch (err) {
       console.error("Login error:", err.message || err)
       setErrorMessage(`Login failed: ${err.message || "Please check your Supabase configuration"}`)
