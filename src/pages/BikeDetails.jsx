@@ -15,6 +15,9 @@ const BikeDetails = () => {
   const [bike, setBike] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [wishlist, setWishlist] = useState(
+    JSON.parse(localStorage.getItem("wishlist")) || []
+  );
 
   useEffect(() => {
     const fetchBike = async () => {
@@ -36,6 +39,33 @@ const BikeDetails = () => {
 
     fetchBike();
   }, [slug]);
+
+  useEffect(() => {
+    setWishlist(JSON.parse(localStorage.getItem("wishlist")) || []);
+  }, [bike]);
+
+  const toggleWishlist = () => {
+    if (!bike) return;
+    let updatedWishlist;
+    if (wishlist.find((item) => item.id === bike.id && item.type === "bike")) {
+      updatedWishlist = wishlist.filter(
+        (item) => !(item.id === bike.id && item.type === "bike")
+      );
+    } else {
+      updatedWishlist = [
+        ...wishlist,
+        {
+          id: bike.id,
+          imgurl: bike.imgurl,
+          name: bike.bikename,
+          price: bike.price,
+          type: "bike",
+        },
+      ];
+    }
+    setWishlist(updatedWishlist);
+    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+  };
 
   const handleAddToWishlist = () => {
     const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
@@ -71,10 +101,36 @@ const BikeDetails = () => {
             <Col lg="6">
               <div className="bike__info">
                 <div className="d-flex justify-content-between align-items-center">
-                  <h2 className="section__title">{bike.bikename}</h2>
-                  <button className="wishlist-icon" onClick={handleAddToWishlist}>
-                    <i className="ri-heart-line"></i>
-                  </button>
+                  <h2 className="section__title mb-0 d-flex align-items-center justify-content-between">
+                    {bike.bikename}
+                    <i
+                      className={`ri-heart-${
+                        wishlist.find(
+                          (item) => item.id === bike.id && item.type === "bike"
+                        )
+                          ? "fill"
+                          : "line"
+                      }`}
+                      style={{
+                        cursor: "pointer",
+                        color: "#f9a826",
+                        marginLeft: 16,
+                      }}
+                      onClick={toggleWishlist}
+                    ></i>
+                    <button
+                      className="btn btn-primary btn-sm ms-3"
+                      style={{
+                        borderRadius: 20,
+                        fontSize: "1rem",
+                        padding: "0.3rem 1.2rem",
+                        marginLeft: 16,
+                      }}
+                      onClick={() => navigate("/chat")}
+                    >
+                      <i className="ri-chat-3-line me-2"></i> Chat with Seller
+                    </button>
+                  </h2>
                 </div>
                 <h6 className="price">${bike.price}.00</h6>
                 <p className="section__description">{bike.description}</p>
@@ -94,21 +150,48 @@ const BikeDetails = () => {
                     <i className="ri-building-2-line"></i> {bike.brand}
                   </span>
                 </div>
-                <div className="d-flex align-items-center mt-3">
-                  <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-user-3-line"></i> Seller: {bike.users?.name || "Unknown"}
-                  </span>
-                  <span className="d-flex align-items-center gap-1 section__description">
-                    <i className="ri-mail-line"></i> {bike.users?.email || "N/A"}
-                  </span>
-                </div>
               </div>
             </Col>
-            <Col lg="7" className="mt-5">
-              <BookingForm />
-            </Col>
-            <Col lg="5" className="mt-5">
-              <PaymentMethod />
+          </Row>
+          {/* Seller Details Section - horizontal and separate */}
+          <Row className="mt-5 justify-content-center">
+            <Col lg="8">
+              <div className="d-flex flex-row align-items-center justify-content-center p-4 border rounded bg-light">
+                <div
+                  className="d-flex align-items-center justify-content-center me-4"
+                  style={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: "50%",
+                    background: "#e9ecef",
+                  }}
+                >
+                  <i
+                    className="ri-user-3-line"
+                    style={{ fontSize: 60, color: "#adb5bd" }}
+                  ></i>
+                </div>
+                <div>
+                  <h4 className="mb-2">Seller Details</h4>
+                  <div className="mb-1">
+                    <strong>Name:</strong> {bike.users?.name || "Unknown"}
+                  </div>
+                  <div className="mb-3">
+                    <strong>Email:</strong> {bike.users?.email || "N/A"}
+                  </div>
+                  <button
+                    className="btn btn-primary btn-lg mt-2"
+                    style={{
+                      borderRadius: 30,
+                      padding: "0.75rem 2.5rem",
+                      fontSize: "1.2rem",
+                    }}
+                    onClick={() => navigate("/chat")}
+                  >
+                    <i className="ri-chat-3-line me-2"></i> Chat with Seller
+                  </button>
+                </div>
+              </div>
             </Col>
           </Row>
         </Container>
