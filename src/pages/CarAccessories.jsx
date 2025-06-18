@@ -4,26 +4,26 @@ import { Link, useNavigate } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection";
 import { supabase } from "../../lib/supabase";
-import "../styles/BikeAccessories.css";
+import "../styles/CarAccessories.css";
 
-const BikeAccessories = () => {
+const CarAccessories = () => {
   const navigate = useNavigate();
+  const [carAccessories, setCarAccessories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [wishlist, setWishlist] = useState(
     JSON.parse(localStorage.getItem("wishlist")) || []
   );
-  const [bikeAccessories, setBikeAccessories] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchAccessories = async () => {
       try {
         const { data, error } = await supabase
-          .from("bikeaccessories")
+          .from("caraccessories")
           .select("*");
         if (error) throw error;
-        setBikeAccessories(data || []);
+        setCarAccessories(data || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -35,12 +35,12 @@ const BikeAccessories = () => {
 
   useEffect(() => {
     setWishlist(JSON.parse(localStorage.getItem("wishlist")) || []);
-  }, []);
+  }, [carAccessories]);
 
   const handleWishlistClick = (item) => {
     const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
     const isExist = existing.some(
-      (i) => i.id === item.id && i.type === "bikeaccessory"
+      (i) => i.id === item.id && i.type === "caraccessory"
     );
     let updated;
     if (!isExist) {
@@ -50,28 +50,31 @@ const BikeAccessories = () => {
         name: item.name,
         description: item.description,
         price: item.price,
-        type: "bikeaccessory",
+        type: "caraccessory",
         slug: item.name,
       };
       updated = [...existing, itemToStore];
     } else {
       updated = existing.filter(
-        (i) => !(i.id === item.id && i.type === "bikeaccessory")
+        (i) => !(i.id === item.id && i.type === "caraccessory")
       );
     }
     setWishlist(updated);
     localStorage.setItem("wishlist", JSON.stringify(updated));
   };
 
-  const filteredAccessories = bikeAccessories.filter(
+  const filteredAccessories = carAccessories.filter(
     (item) =>
       item.name?.toLowerCase().includes(search.toLowerCase()) ||
       item.description?.toLowerCase().includes(search.toLowerCase())
   );
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
-    <Helmet title="Bike Accessories">
-      <CommonSection title="Bike Accessories" />
+    <Helmet title="Car Accessories">
+      <CommonSection title="Car Accessories" />
       <section className="accessories">
         <Container>
           <Row className="mb-3 justify-content-end align-items-center">
@@ -111,7 +114,7 @@ const BikeAccessories = () => {
             ) : (
               filteredAccessories.map((item) => {
                 const isInWishlist = wishlist.find(
-                  (i) => i.id === item.id && i.type === "bikeaccessory"
+                  (i) => i.id === item.id && i.type === "caraccessory"
                 );
                 return (
                   <Col lg="4" md="6" sm="12" key={item.id} className="mb-4">
@@ -132,6 +135,11 @@ const BikeAccessories = () => {
                         src={item.imgurl}
                         alt={item.name}
                         className="accessory__image"
+                        style={{
+                        borderRadius: "10px",
+                        objectFit: "cover",
+                        height: "200px",
+                      }}
                       />
                       <div className="accessory__content mt-3">
                         <h4 className="text-center">{item.name}</h4>
@@ -166,4 +174,4 @@ const BikeAccessories = () => {
   );
 };
 
-export default BikeAccessories;
+export default CarAccessories;
