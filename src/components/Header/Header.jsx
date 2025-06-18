@@ -14,7 +14,6 @@ const navLinks = [
   { path: "/wishlist", display: "Wishlist" },
   { path: "/blogs", display: "Blog" },
   { path: "/contact", display: "Contact" },
-
 ];
 
 const Header = () => {
@@ -52,16 +51,26 @@ const Header = () => {
                     <span className="d-flex align-items-center gap-1">
                       <i className="ri-user-line"></i> {userName} ({role})
                     </span>
-                    <Link to="/login" className="d-flex align-items-center gap-1" onClick={handleLogout}>
+                    <Link
+                      to="/login"
+                      className="d-flex align-items-center gap-1"
+                      onClick={handleLogout}
+                    >
                       <i className="ri-logout-circle-line"></i> Logout
                     </Link>
                   </>
                 ) : (
                   <>
-                    <Link to="/login" className="d-flex align-items-center gap-1">
+                    <Link
+                      to="/login"
+                      className="d-flex align-items-center gap-1"
+                    >
                       <i className="ri-login-circle-line"></i> Login
                     </Link>
-                    <Link to="/register" className="d-flex align-items-center gap-1">
+                    <Link
+                      to="/register"
+                      className="d-flex align-items-center gap-1"
+                    >
                       <i className="ri-user-line"></i> Register
                     </Link>
                   </>
@@ -78,7 +87,10 @@ const Header = () => {
           <Row className="align-items-center">
             <Col lg="4" md="3" sm="4">
               <div className="logo d-flex align-items-center gap-2">
-                <Link to="/home" className="d-flex align-items-center gap-2 text-white text-decoration-none">
+                <Link
+                  to="/home"
+                  className="d-flex align-items-center gap-2 text-white text-decoration-none"
+                >
                   <img src={logo} alt="Moto Zone Logo" className="site-logo" />
                   <span className="logo-text">MotoZone MarketPlace</span>
                 </Link>
@@ -97,8 +109,16 @@ const Header = () => {
               </div>
             </Col>
 
-            <Col lg="4" md="4" sm="4" className="d-flex align-items-center justify-content-end">
-              <button className="header__btn btn" style={{ backgroundColor: "#ffc107" }}>
+            <Col
+              lg="4"
+              md="4"
+              sm="4"
+              className="d-flex align-items-center justify-content-end"
+            >
+              <button
+                className="header__btn btn"
+                style={{ backgroundColor: "#ffc107" }}
+              >
                 <Link to="/contact" style={{ color: "inherit" }}>
                   <i className="ri-phone-line"></i> Request a call
                 </Link>
@@ -125,21 +145,28 @@ const Header = () => {
                   <NavLink
                     to={link.path}
                     key={index}
-                    className="nav__item"
-                    activeClassName="nav__active"
+                    className={({ isActive }) =>
+                      `nav__item${isActive ? " nav__active" : ""}`
+                    }
                   >
                     {link.display}
                   </NavLink>
                 ))}
                 {isAdmin && (
-                  <button className="header__btn btn" style={{ backgroundColor: "#11589a" }}>
+                  <button
+                    className="header__btn btn"
+                    style={{ backgroundColor: "#11589a" }}
+                  >
                     <Link to="/admin-page" style={{ color: "#ffc107" }}>
                       <i className="ri-user-line"></i> Admin Dashboard
                     </Link>
                   </button>
                 )}
                 {role === "seller" && (
-                  <button className="header__btn btn" style={{ backgroundColor: "#11589a" }}>
+                  <button
+                    className="header__btn btn"
+                    style={{ backgroundColor: "#11589a" }}
+                  >
                     <Link to="/seller-dashboard" style={{ color: "#ffc107" }}>
                       <i className="ri-store-2-line"></i> Seller Dashboard
                     </Link>

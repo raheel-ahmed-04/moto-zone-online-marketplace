@@ -124,7 +124,12 @@ const Login = () => {
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
-        navigate("/home");
+        if(user.role === "buyer") {
+          navigate("/home");
+        }
+        if(user.role === "seller") {
+          navigate("/seller-dashboard");
+        }
       }, 3000);
     } catch (err) {
       console.error("Login error:", err.message || err);
