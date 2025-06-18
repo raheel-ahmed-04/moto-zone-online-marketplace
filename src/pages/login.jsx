@@ -21,6 +21,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/login.css";
 import { supabase } from "../../lib/supabase";
+import bcrypt from "bcryptjs";
 
 const Login = () => {
   const [activeTab, setActiveTab] = useState("user");
@@ -91,10 +92,10 @@ const Login = () => {
     try {
       const { data: users, error } = await supabase
         .from("users")
-        .select("id, name, email, role")
+        .select("id, name, email, role, password")
         .eq("email", userFormData.email)
-        .eq("password", userFormData.password)
-        .eq("role", userFormData.role);
+        .eq("role", userFormData.role)
+        .limit(1);;
 
       if (error) {
         console.error("Query error:", error);
@@ -108,7 +109,14 @@ const Login = () => {
       }
 
       const user = users[0];
-      // Replace localStorage with sessionStorage for security
+      const passwordMatch = await bcrypt.compare(userFormData.password, user.password);
+
+      if (!passwordMatch) {
+        setErrorMessage("Incorrect password");
+        setLoading(false);
+        return;
+      }
+      
       sessionStorage.setItem("userName", user.name);
       sessionStorage.setItem("role", user.role);
       sessionStorage.setItem("isAdmin", "false");
