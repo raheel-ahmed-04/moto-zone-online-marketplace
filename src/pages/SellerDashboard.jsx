@@ -39,7 +39,7 @@ const SellerDashboard = () => {
 
   useEffect(() => {
     if (role !== "seller") {
-      navigate("/home");
+      navigate("/login");
       return;
     }
     fetchItems();

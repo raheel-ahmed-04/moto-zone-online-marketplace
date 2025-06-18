@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Helmet from "../components/Helmet/Helmet";
+import CommonSection from "../components/UI/CommonSection";
 import bikeAccessoriesData from "../assets/data/bikeAccessoriesData";
 import "../styles/BikeAccessories.css";
 
@@ -30,10 +31,10 @@ const BikeAccessories = () => {
 
   return (
     <Helmet title="Bike Accessories">
+    <CommonSection title="Bike Accessories" />
       <section className="accessories">
         <Container>
           <Row>
-            <h2 className="section__title text-center mb-5">Bike Accessories</h2>
             {bikeAccessoriesData.map((item) => (
               <Col lg="4" md="6" sm="12" key={item.id} className="mb-4">
                 <div className="accessory__item position-relative">

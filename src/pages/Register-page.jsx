@@ -1,8 +1,22 @@
-import { useState } from "react"
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button, InputGroup, Toast, ToastBody, ToastHeader } from "reactstrap"
-import { Link, useNavigate } from "react-router-dom"
-import "../styles/register.css"
-import { supabase } from "../../lib/supabase"
+import { useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button,
+  InputGroup,
+  Toast,
+  ToastBody,
+  ToastHeader,
+} from "reactstrap";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/register.css";
+import { supabase } from "../../lib/supabase";
+import bcrypt from "bcryptjs";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -10,75 +24,96 @@ const Register = () => {
     email: "",
     password: "",
     role: "buyer",
-  })
-  const [errorMessage, setErrorMessage] = useState("")
-  const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [showToast, setShowToast] = useState(false)
-  const navigate = useNavigate()
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { id, value } = e.target
-    setFormData({ ...formData, [id]: value })
-    setErrorMessage("")
-  }
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+    setErrorMessage("");
+  };
 
   const handleRoleChange = (role) => {
-    setFormData({ ...formData, role })
-  }
+    setFormData({ ...formData, role });
+  };
 
-  const togglePassword = () => setShowPassword(!showPassword)
+  const togglePassword = () => setShowPassword(!showPassword);
+
+  const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,}$/;
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setErrorMessage("")
-    setLoading(true)
+    e.preventDefault();
+    setErrorMessage("");
+    setLoading(true);
+
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long.");
+      setLoading(false);
+      return;
+    }
 
     try {
       // Check if email already exists
       const { data: existingUsers, error: checkError } = await supabase
         .from("users")
         .select("email")
-        .eq("email", formData.email)
+        .eq("email", formData.email);
 
       if (checkError) {
-        console.error("Check error:", checkError)
-        throw new Error(`Check error: ${checkError.message}`)
+        console.error("Check error:", checkError);
+        throw new Error(`Check error: ${checkError.message}`);
       }
 
       if (existingUsers && existingUsers.length > 0) {
-        setErrorMessage("Email already registered")
-        setLoading(false)
-        return
+        setErrorMessage("Email already registered");
+        setLoading(false);
+        return;
       }
+
+      // Hash password
+      const hashedPassword = await bcrypt.hash(formData.password, 10);
 
       // Insert new user into Supabase
       const { error } = await supabase.from("users").insert([
         {
           name: formData.name,
           email: formData.email,
-          password: formData.password,
+          password: hashedPassword,
           role: formData.role,
         },
-      ])
+      ]);
 
       if (error) {
-        console.error("Insert error:", error)
-        throw new Error(`Registration error: ${error.message}`)
+        console.error("Insert error:", error);
+        throw new Error(`Registration error: ${error.message}`);
       }
 
-      setShowToast(true)
+      setShowToast(true);
       setTimeout(() => {
-        setShowToast(false)
-        navigate("/login")
-      }, 3000)
+        setShowToast(false);
+        navigate("/login");
+      }, 3000);
     } catch (err) {
-      console.error("Registration error:", err.message || err)
-      setErrorMessage(`Registration failed: ${err.message || "Please check your Supabase configuration"}`)
+      console.error("Registration error:", err.message || err);
+      setErrorMessage(
+        `Registration failed: ${
+          err.message || "Please check your Supabase configuration"
+        }`
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="register-page">
@@ -101,9 +136,19 @@ const Register = () => {
               </div>
             )}
 
-            <Toast isOpen={showToast} style={{ position: "fixed", top: "20px", right: "20px", zIndex: 1000 }}>
+            <Toast
+              isOpen={showToast}
+              style={{
+                position: "fixed",
+                top: "20px",
+                right: "20px",
+                zIndex: 1000,
+              }}
+            >
               <ToastHeader>Success</ToastHeader>
-              <ToastBody>Registration successful! Redirecting to login...</ToastBody>
+              <ToastBody>
+                Registration successful! Redirecting to login...
+              </ToastBody>
             </Toast>
 
             <Form onSubmit={handleSubmit}>
@@ -120,7 +165,6 @@ const Register = () => {
               <FormGroup>
                 <Label for="email">Email</Label>
                 <Input
- USING THIS CODE IN THE FUTURE
                   type="email"
                   id="email"
                   required
@@ -143,7 +187,9 @@ const Register = () => {
                     onClick={togglePassword}
                     style={{ width: "40px", padding: "0" }}
                   >
-                    <i className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}></i>
+                    <i
+                      className={showPassword ? "bi bi-eye-slash" : "bi bi-eye"}
+                    ></i>
                   </Button>
                 </InputGroup>
               </FormGroup>
@@ -177,7 +223,7 @@ const Register = () => {
         </Row>
       </Container>
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

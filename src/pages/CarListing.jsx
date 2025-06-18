@@ -43,9 +43,6 @@ const CarListing = () => {
     fetchCars();
   }, [sortOrder]);
 
-  const handleManageCars = () => {
-    navigate("/manage-cars");
-  };
 
   const handleSort = (e) => {
     setSortOrder(e.target.value);
@@ -89,7 +86,6 @@ const CarListing = () => {
                   <option value="low">Price: Low to High</option>
                   <option value="high">Price: High to Low</option>
                 </select>
-                <Button onClick={handleManageCars}>Manage Cars</Button>
               </div>
             </Col>
 

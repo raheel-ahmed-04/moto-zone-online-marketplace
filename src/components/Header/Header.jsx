@@ -79,7 +79,7 @@ const Header = () => {
               <div className="logo d-flex align-items-center gap-2">
                 <Link to="/home" className="d-flex align-items-center gap-2 text-white text-decoration-none">
                   <img src={logo} alt="Moto Zone Logo" className="site-logo" />
-                  <span className="logo-text">Car Showroom</span>
+                  <span className="logo-text">MotoZone MarketPlace</span>
                 </Link>
               </div>
             </Col>
