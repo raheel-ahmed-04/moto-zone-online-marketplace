@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+"use client"
+
+import { useState, useEffect } from "react"
 import {
   Container,
   Row,
@@ -19,121 +21,180 @@ import {
   FormGroup,
   Label,
   Alert,
-} from "reactstrap";
-import { supabase } from "../../lib/supabase";
-import { useNavigate } from "react-router-dom";
-import "../styles/admin.css"; // You'll need to create this CSS file
+} from "reactstrap"
+import { supabase } from "../../lib/supabase"
+import { useNavigate } from "react-router-dom"
+import "../styles/admin.css" // You'll need to create this CSS file
 
 const AdminPage = () => {
-  const [activeTab, setActiveTab] = useState("buyers");
-  const [buyers, setBuyers] = useState([]);
-  const [sellers, setSellers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("buyers")
+  const [buyers, setBuyers] = useState([])
+  const [sellers, setSellers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const navigate = useNavigate()
+
+  // Block/Unblock modal state
+  const [blockModal, setBlockModal] = useState(false)
+  const [userToBlock, setUserToBlock] = useState(null)
+  const [blockReason, setBlockReason] = useState("")
 
   // Check if user is admin
   useEffect(() => {
     const checkAdmin = () => {
-      const isAdminUser = sessionStorage.getItem("isAdmin") === "true";
-      setIsAdmin(isAdminUser);
+      const isAdminUser = sessionStorage.getItem("isAdmin") === "true"
+      setIsAdmin(isAdminUser)
 
       if (!isAdminUser) {
-        navigate("/home");
+        navigate("/home")
       }
-    };
+    }
 
-    checkAdmin();
-  }, [navigate]);
+    checkAdmin()
+  }, [navigate])
 
   // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
+        setLoading(true)
 
         // Fetch buyers
-        const { data: buyersData, error: buyersError } = await supabase
-          .from("users")
-          .select("*")
-          .eq("role", "buyer");
+        const { data: buyersData, error: buyersError } = await supabase.from("users").select("*").eq("role", "buyer")
 
-        if (buyersError) throw buyersError;
-        setBuyers(buyersData || []);
+        if (buyersError) throw buyersError
+        setBuyers(buyersData || [])
 
         // Fetch sellers
-        const { data: sellersData, error: sellersError } = await supabase
-          .from("users")
-          .select("*")
-          .eq("role", "seller");
+        const { data: sellersData, error: sellersError } = await supabase.from("users").select("*").eq("role", "seller")
 
-        if (sellersError) throw sellersError;
-        setSellers(sellersData || []);
+        if (sellersError) throw sellersError
+        setSellers(sellersData || [])
       } catch (err) {
-        console.error("Error fetching data:", err);
-        setError(err.message);
+        console.error("Error fetching data:", err)
+        setError(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
     if (isAdmin) {
-      fetchData();
+      fetchData()
     }
-  }, [isAdmin]);
+  }, [isAdmin])
 
   // Toggle between tabs
   const toggle = (tab) => {
     if (activeTab !== tab) {
-      setActiveTab(tab);
+      setActiveTab(tab)
     }
-  };
+  }
 
   // User management state
-  const [modal, setModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [modal, setModal] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     role: "buyer",
     status: "active",
-  });
+  })
 
   // Toggle modal
-  const toggleModal = () => setModal(!modal);
+  const toggleModal = () => setModal(!modal)
+
+  // Toggle block modal
+  const toggleBlockModal = () => {
+    setBlockModal(!blockModal)
+    setBlockReason("")
+    setUserToBlock(null)
+  }
 
   // Handle form input changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   // Open edit modal
   const handleEdit = (user) => {
-    setCurrentUser(user);
+    setCurrentUser(user)
     setFormData({
       id: user.id,
       name: user.name || "",
       email: user.email || "",
       role: user.role || "buyer",
       status: user.status || "active",
-    });
-    toggleModal();
-  };
+    })
+    toggleModal()
+  }
 
   // Create new user
   const handleCreate = () => {
-    setCurrentUser(null);
+    setCurrentUser(null)
     setFormData({
       id: "",
       name: "",
       email: "",
       role: activeTab === "buyers" ? "buyer" : "seller",
       status: "active",
-    });
-    toggleModal();
-  };
+    })
+    toggleModal()
+  }
+
+  // Open block modal
+  const handleBlockUser = (user) => {
+    setUserToBlock(user)
+    setBlockModal(true)
+  }
+
+  // Block/Unblock user
+  const handleConfirmBlock = async () => {
+    if (!userToBlock) return
+
+    try {
+      const newStatus = userToBlock.status === "blocked" ? "active" : "blocked"
+
+      const updateData = {
+        status: newStatus,
+        updated_at: new Date().toISOString(),
+      }
+
+      // Add block reason if blocking the user
+      if (newStatus === "blocked" && blockReason.trim()) {
+        updateData.block_reason = blockReason.trim()
+        updateData.blocked_at = new Date().toISOString()
+      } else if (newStatus === "active") {
+        updateData.block_reason = null
+        updateData.blocked_at = null
+      }
+
+      const { error } = await supabase.from("users").update(updateData).eq("id", userToBlock.id)
+
+      if (error) throw error
+
+      // Refresh data
+      const { data: buyersData } = await supabase.from("users").select("*").eq("role", "buyer")
+
+      const { data: sellersData } = await supabase.from("users").select("*").eq("role", "seller")
+
+      setBuyers(buyersData || [])
+      setSellers(sellersData || [])
+
+      toggleBlockModal()
+
+      // Show success message
+      setError(null)
+      setTimeout(() => {
+        setError(`User ${newStatus === "blocked" ? "blocked" : "unblocked"} successfully!`)
+        setTimeout(() => setError(null), 3000)
+      }, 100)
+    } catch (err) {
+      console.error("Error blocking/unblocking user:", err)
+      setError(err.message)
+    }
+  }
 
   // Save user (create or update)
   const handleSave = async () => {
@@ -147,11 +208,11 @@ const AdminPage = () => {
             email: formData.email,
             role: formData.role,
             status: formData.status,
-            // updated_at: new Date()
+            updated_at: new Date().toISOString(),
           })
-          .eq("id", currentUser.id);
+          .eq("id", currentUser.id)
 
-        if (error) throw error;
+        if (error) throw error
       } else {
         // Create new user
         const { error } = await supabase.from("users").insert([
@@ -160,57 +221,51 @@ const AdminPage = () => {
             email: formData.email,
             role: formData.role,
             status: formData.status,
-            // created_at: new Date()
+            created_at: new Date().toISOString(),
           },
-        ]);
+        ])
 
-        if (error) throw error;
+        if (error) throw error
       }
 
       // Refresh data
-      const { data: buyersData } = await supabase
-        .from("users")
-        .select("*")
-        .eq("role", "buyer");
+      const { data: buyersData } = await supabase.from("users").select("*").eq("role", "buyer")
 
-      const { data: sellersData } = await supabase
-        .from("users")
-        .select("*")
-        .eq("role", "seller");
+      const { data: sellersData } = await supabase.from("users").select("*").eq("role", "seller")
 
-      setBuyers(buyersData || []);
-      setSellers(sellersData || []);
+      setBuyers(buyersData || [])
+      setSellers(sellersData || [])
 
-      toggleModal();
+      toggleModal()
     } catch (err) {
-      console.error("Error saving user:", err);
-      setError(err.message);
+      console.error("Error saving user:", err)
+      setError(err.message)
     }
-  };
+  }
 
   // Delete user
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const { error } = await supabase.from("users").delete().eq("id", id);
+        const { error } = await supabase.from("users").delete().eq("id", id)
 
-        if (error) throw error;
+        if (error) throw error
 
         // Update state to remove the deleted user
         if (activeTab === "buyers") {
-          setBuyers(buyers.filter((buyer) => buyer.id !== id));
+          setBuyers(buyers.filter((buyer) => buyer.id !== id))
         } else {
-          setSellers(sellers.filter((seller) => seller.id !== id));
+          setSellers(sellers.filter((seller) => seller.id !== id))
         }
       } catch (err) {
-        console.error("Error deleting user:", err);
-        setError(err.message);
+        console.error("Error deleting user:", err)
+        setError(err.message)
       }
     }
-  };
+  }
 
   if (!isAdmin) {
-    return <div>Redirecting to home page...</div>;
+    return <div>Redirecting to home page...</div>
   }
 
   return (
@@ -218,25 +273,19 @@ const AdminPage = () => {
       <h2 className="mb-4">Admin Dashboard</h2>
 
       {error && (
-        <Alert color="danger" className="mb-4">
+        <Alert color={error.includes("successfully") ? "success" : "danger"} className="mb-4">
           {error}
         </Alert>
       )}
 
       <Nav tabs>
         <NavItem>
-          <NavLink
-            className={activeTab === "buyers" ? "active" : ""}
-            onClick={() => toggle("buyers")}
-          >
+          <NavLink className={activeTab === "buyers" ? "active" : ""} onClick={() => toggle("buyers")}>
             Buyers
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink
-            className={activeTab === "sellers" ? "active" : ""}
-            onClick={() => toggle("sellers")}
-          >
+          <NavLink className={activeTab === "sellers" ? "active" : ""} onClick={() => toggle("sellers")}>
             Sellers
           </NavLink>
         </NavItem>
@@ -281,25 +330,22 @@ const AdminPage = () => {
                       <td>{buyer.name}</td>
                       <td>{buyer.email}</td>
                       <td>
-                        <span className={`status-badge ${buyer.status}`}>
-                          {buyer.status}
-                        </span>
+                        <span className={`status-badge ${buyer.status}`}>{buyer.status}</span>
                       </td>
                       {/* <td>{new Date(buyer.created_at).toLocaleDateString()}</td> */}
                       <td>
-                        <Button
-                          color="info"
-                          size="sm"
-                          className="me-2"
-                          onClick={() => handleEdit(buyer)}
-                        >
+                        <Button color="info" size="sm" className="me-2" onClick={() => handleEdit(buyer)}>
                           Edit
                         </Button>
                         <Button
-                          color="danger"
+                          color={buyer.status === "blocked" ? "success" : "warning"}
                           size="sm"
-                          onClick={() => handleDelete(buyer.id)}
+                          className="me-2"
+                          onClick={() => handleBlockUser(buyer)}
                         >
+                          {buyer.status === "blocked" ? "Unblock" : "Block"}
+                        </Button>
+                        <Button color="danger" size="sm" onClick={() => handleDelete(buyer.id)}>
                           Delete
                         </Button>
                       </td>
@@ -349,25 +395,22 @@ const AdminPage = () => {
                       <td>{seller.name}</td>
                       <td>{seller.email}</td>
                       <td>
-                        <span className={`status-badge ${seller.status}`}>
-                          {seller.status}
-                        </span>
+                        <span className={`status-badge ${seller.status}`}>{seller.status}</span>
                       </td>
                       {/* <td>{new Date(seller.created_at).toLocaleDateString()}</td> */}
                       <td>
-                        <Button
-                          color="info"
-                          size="sm"
-                          className="me-2"
-                          onClick={() => handleEdit(seller)}
-                        >
+                        <Button color="info" size="sm" className="me-2" onClick={() => handleEdit(seller)}>
                           Edit
                         </Button>
                         <Button
-                          color="danger"
+                          color={seller.status === "blocked" ? "success" : "warning"}
                           size="sm"
-                          onClick={() => handleDelete(seller.id)}
+                          className="me-2"
+                          onClick={() => handleBlockUser(seller)}
                         >
+                          {seller.status === "blocked" ? "Unblock" : "Block"}
+                        </Button>
+                        <Button color="danger" size="sm" onClick={() => handleDelete(seller.id)}>
                           Delete
                         </Button>
                       </td>
@@ -382,9 +425,7 @@ const AdminPage = () => {
 
       {/* Add/Edit User Modal */}
       <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>
-          {currentUser ? "Edit User" : "Add New User"}
-        </ModalHeader>
+        <ModalHeader toggle={toggleModal}>{currentUser ? "Edit User" : "Add New User"}</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
@@ -413,29 +454,18 @@ const AdminPage = () => {
             </FormGroup>
             <FormGroup>
               <Label for="role">Role</Label>
-              <Input
-                type="select"
-                name="role"
-                id="role"
-                value={formData.role}
-                onChange={handleChange}
-              >
+              <Input type="select" name="role" id="role" value={formData.role} onChange={handleChange}>
                 <option value="buyer">Buyer</option>
                 <option value="seller">Seller</option>
               </Input>
             </FormGroup>
             <FormGroup>
               <Label for="status">Status</Label>
-              <Input
-                type="select"
-                name="status"
-                id="status"
-                value={formData.status}
-                onChange={handleChange}
-              >
+              <Input type="select" name="status" id="status" value={formData.status} onChange={handleChange}>
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
                 <option value="pending">Pending</option>
+                <option value="blocked">Blocked</option>
               </Input>
             </FormGroup>
           </Form>
@@ -449,8 +479,58 @@ const AdminPage = () => {
           </Button>
         </ModalFooter>
       </Modal>
-    </Container>
-  );
-};
 
-export default AdminPage;
+      {/* Block/Unblock User Modal */}
+      <Modal isOpen={blockModal} toggle={toggleBlockModal}>
+        <ModalHeader toggle={toggleBlockModal}>
+          {userToBlock?.status === "blocked" ? "Unblock User" : "Block User"}
+        </ModalHeader>
+        <ModalBody>
+          {userToBlock?.status === "blocked" ? (
+            <div>
+              <p>
+                Are you sure you want to unblock <strong>{userToBlock?.name}</strong>?
+              </p>
+              {userToBlock?.block_reason && (
+                <div className="mt-3">
+                  <Label>
+                    <strong>Current Block Reason:</strong>
+                  </Label>
+                  <p className="text-muted">{userToBlock.block_reason}</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <p>
+                Are you sure you want to block <strong>{userToBlock?.name}</strong>?
+              </p>
+              <FormGroup className="mt-3">
+                <Label for="blockReason">Block Reason (Optional)</Label>
+                <Input
+                  type="textarea"
+                  name="blockReason"
+                  id="blockReason"
+                  value={blockReason}
+                  onChange={(e) => setBlockReason(e.target.value)}
+                  placeholder="Enter reason for blocking this user..."
+                  rows="3"
+                />
+              </FormGroup>
+            </div>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button color={userToBlock?.status === "blocked" ? "success" : "warning"} onClick={handleConfirmBlock}>
+            {userToBlock?.status === "blocked" ? "Unblock" : "Block"}
+          </Button>
+          <Button color="secondary" onClick={toggleBlockModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </Container>
+  )
+}
+
+export default AdminPage
